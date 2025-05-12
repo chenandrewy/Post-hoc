@@ -133,7 +133,7 @@ If the sole goal of research is to find an unbiased estimate of the idea quality
 E\left(\hat{\mu}_{i}\mid i\in S \right) & =E\left(\mu_{i}\mid i\in S \right).
 \label{eq:unbiased}
 \end{align}
-In contrast, the expected $\hat{\mu}_{i}$ from \emph{post hoc} theorizing is biased:
+[tbc: address small bias at $\hat{\mu}_{i} \approx \text{median}(\mu_i)$ due to $\hat{\mu}_{i}$ not accounting for the theorist's signal] In contrast, the expected $\hat{\mu}_{i}$ from \emph{post hoc} theorizing is biased:
 \begin{lemma}\label{lem:ez:biased}
     \begin{align}
         E\Bigl(\hat{\mu}_{i}\big|i=\arg\max_{j\in S }\hat{\mu}_{j}\Bigr) & >E\Bigl(\mu_{i}\big|i=\arg\max_{j\in S }\hat{\mu}_{j}\Bigr).
@@ -204,11 +204,11 @@ In this case, \emph{post hoc} theorizing is actually optimal. \emph{Post hoc} th
 The second condition in this expression cuts off the lower tail of the distribution of $\mu_i$. Thus, this expression exceeds the expectation of $\mu_i$ conditioning on $i\in S$ alone, which is the RHS of Equation \eqref{eq:ez:post-hoc-opt}.
 \end{proof}
 
-Lemmas \ref{lem:ez:biased} and \ref{lem:ez:post-hoc-opt} are illustrated in Figure \ref{fig:ez}. It simulates 100 selected ideas, with $N=100$, $\mu_i \sim \text{Normal}\left(50, 50\right)$, and $\varepsilon_i \sim \text{Normal}\left(0, 25\right)$. \emph{A priori} theorizing leads to unbiased estimates, seen in the dots evenly spread across the 45 degree line. However, \emph{post hoc} theorizing leads to higher quality ideas, seen  in how the stars tend to lie on the right side of the chart.
+Lemmas \ref{lem:ez:biased} and \ref{lem:ez:post-hoc-opt} are illustrated in Figure \ref{fig:ez}. It simulates 100 selected ideas, with $N=20$, $\mu_i \sim \text{Normal}\left(0, 2^2\right)$, and $\varepsilon_i \sim \text{Normal}\left(0, 1\right)$. \emph{A priori} theorizing leads to approximately unbiased estimates, seen in the dots evenly spread across the 45 degree line. However, \emph{post hoc} theorizing leads to higher quality ideas, seen  in how the stars tend to lie toward the top of the chart.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{../Results/scatter.pdf}
+    \includegraphics[width=\textwidth]{../Results/simple-scatter.pdf}
     \caption{100 Simulations of a Very Simple Model of Research}
     \label{fig:ez}
 \end{figure}
@@ -334,11 +334,13 @@ $\hat{\mu}_{i}$ \emph{post hoc} (Equation \eqref{eq:endo:bad-post-hoc}), the RHS
 
 
 \begin{figure}[t]
+    \def\tempwidth{0.8\textwidth}
+
     \centering
     \begin{subfigure}[b]{\textwidth}
         \centering
         \caption{\emph{A priori} Selection}
-        \includegraphics[width=0.5\textwidth]{../Results/litplus-muhat-ap.pdf}
+        \includegraphics[width=\tempwidth]{../Results/litplus-muhat-ap.pdf}
     \end{subfigure}
     
     \vspace{1em}
@@ -346,7 +348,7 @@ $\hat{\mu}_{i}$ \emph{post hoc} (Equation \eqref{eq:endo:bad-post-hoc}), the RHS
     \begin{subfigure}[b]{\textwidth}
         \centering
         \caption{\emph{Post hoc} Selection}
-        \includegraphics[width=0.5\textwidth]{../Results/litplus-muhat-ph.pdf}
+        \includegraphics[width=\tempwidth]{../Results/litplus-muhat-ph.pdf}
     \end{subfigure}
     \caption{Darwinian Selection}
     \label{fig:darwinian_selection}

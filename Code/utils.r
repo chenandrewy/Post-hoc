@@ -1,4 +1,10 @@
-# %% Constants ==============================================
+#%% Libraries ==============================================
+
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+
+#%% Colors ==============================================
 
 MATBLUE <- rgb(0, 0.4470, 0.7410)
 MATORANGE <- rgb(0.8500, 0.3250, 0.0980)
@@ -7,6 +13,8 @@ MATPURPLE <- rgb(0.4940, 0.1840, 0.5560)
 MATGREEN <- rgb(0.4660, 0.6740, 0.1880)
 MATCYAN <- rgb(0.3010, 0.7450, 0.9330)
 MATRED <- rgb(0.6350, 0.0780, 0.1840)
+
+#%% Functions ==============================================
 
 # Simulate fundamentals
 simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qgood, h = 2, return_fund = FALSE) {
@@ -30,6 +38,8 @@ simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qg
         1 * (row_number() >= ceiling(n_ideas * qbad))
       )
     ) %>%
+    # testing
+    # mutate(signal = mu > 0) %>% 
     # if we combine theory and data, we end up with a joint ranking
     arrange(theorist, signal, -muhat) %>%
     group_by(theorist, signal) %>%
@@ -81,7 +91,6 @@ simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qg
   }
 } # end simulate_fund
 
-
 # Histogram plot
 plot_histogram <- function(
     histdat, ylimnum = NULL, xlimnum = NULL
@@ -93,11 +102,11 @@ plot_histogram <- function(
     geom_bar(aes(fill = type), stat = "identity", position = "identity", alpha = 0.5) +
     scale_fill_manual(
       values = c("good" = MATBLUE, "bad" = MATORANGE),
-      name = "Theorist"
+      name = "Theorist Type"
     ) +
     labs(
       y = "Proportion",
-      fill = "Theorist"
+      fill = "Theorist Type"
     ) +
     theme_minimal() +
     theme(
@@ -119,16 +128,16 @@ plot_histogram <- function(
   return(plot_out)
 } # end plot_histogram
 
-
 # Helper function to create histogram data
 create_histogram_data <- function(data, varname, filter_condition = NULL, binwidth = 0.5) {
   if (!is.null(filter_condition)) {
     data <- data %>% filter(!!filter_condition)
   }
   
-  # get bins
+  # get bins  
   binlimit <- data %>% pull(get(varname)) %>% range()
-  binlimit[1] = floor(binlimit[1]); binlimit[2] = ceiling(binlimit[2])
+  binlimit[1] = floor(binlimit[1] / binwidth) * binwidth
+  binlimit[2] = ceiling(binlimit[2] / binwidth) * binwidth
   edge = seq(binlimit[1], binlimit[2], by = binwidth)
   mid <- (edge[-1] + edge[-length(edge)]) / 2
   
@@ -145,48 +154,4 @@ create_histogram_data <- function(data, varname, filter_condition = NULL, binwid
     binlimit = binlimit,
     prop_range = plotme %>% pull(prop) %>% range()
   ))
-}
-
-# Helper function to save plots
-save_plots <- function(plots, base_path, width = 6, height = 4, scale = 1.3) {
-  # Save combined plot
-  p_both <- gridExtra::arrangeGrob(
-    plots$ap + ggtitle("a priori"),
-    plots$ph + ggtitle("post hoc"),
-    ncol = 1
-  )
-  ggsave(
-    paste0(base_path, "-both.pdf"),
-    p_both,
-    width = 4,
-    height = 6,
-    device = cairo_pdf,
-    scale = scale
-  )
-  
-  # Save individual plots
-  ggsave(
-    paste0(base_path, "-ap.pdf"),
-    plots$ap,
-    width = width,
-    height = height,
-    device = cairo_pdf,
-    scale = scale
-  )
-  ggsave(
-    paste0(base_path, "-ph.pdf"),
-    plots$ph,
-    width = width,
-    height = height,
-    device = cairo_pdf,
-    scale = scale
-  )
-}
-
-# Helper function to create method plot
-plot_idea_hist <- function(data, method_name, xlimnum, ylimnum) {
-  data %>%
-    filter(method == method_name) %>%
-    plot_histogram(xlimnum = xlimnum, ylimnum = ylimnum) +
-    theme(legend.position = c(7, 9) / 10)
 }
