@@ -1,0 +1,1257 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{chenpaper}
+
+
+
+
+
+
+
+
+\usepackage{babel}
+
+
+
+
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\end_preamble
+\use_default_options false
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding iso8859-15
+\fontencoding T1
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 1
+\output_sync_macro "\synctex=-1"
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine biblatex-natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\biblio_options maxcitenames=3,uniquename=false,backend=biber
+\biblatex_bibstyle authoryear
+\biblatex_citestyle authoryear
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Optimal Post-Hoc Theorizing
+\end_layout
+
+\begin_layout Author
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Andrew Y.
+ Chen
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ 
+\size normal
+Federal Reserve Board
+\end_layout
+
+\begin_layout Date
+December 2024
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The views expressed herein are those of the authors and do not necessarily reflect the position of the Board of Governors of the Federal Reserve or the Federal Reserve System.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ 
+\end_layout
+
+\begin_layout Abstract
+\paragraph_spacing single
+\noindent
+For many economic questions,
+ the empirical results are not interesting unless they are strong.
+ For these questions,
+ theorizing before the results are known is often suboptimal.
+ Instead,
+ the optimal sequencing of theory and empirical analysis trades off (1) the 
+\begin_inset Quotes eld
+\end_inset
+
+Darwinian
+\begin_inset Quotes erd
+\end_inset
+
+ effect of theorizing first with (2) the learning effect from examining the data first.
+ This short paper formalizes this tradeoff in a simple Bayesian model that provides guidance on the use of pre analysis plans and code sharing policies.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10ex
+\end_inset
+
+ 
+\series bold
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+color{Black}
+\end_layout
+
+\end_inset
+
+JEL Classification
+\series default
+:
+ tbc
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+color{Black}
+\end_layout
+
+\end_inset
+
+Keywords
+\series default
+:
+ tbc 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10ex
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Theories formed after observing empirical results (post-hoc theories),
+ are viewed with suspicion by social scientists (e.g.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "harvey2017presidential"
+literal "false"
+
+\end_inset
+
+).
+ Yet some of the most successful scientific theories of all time were formed this way (e.g.
+ gravity,
+ quantum mechanics).
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citet
+key "newton1726scholium"
+literal "false"
+
+\end_inset
+
+ even said 
+\begin_inset Quotes eld
+\end_inset
+
+whatever is not deduced from the phenomena...
+ ...
+ have no place in experimental philosophy.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Consistent with this apparent paradox,
+ the philosophy literature has long debated the merits of post-hoc vs a priori theorizing (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "barnes2022prediction"
+literal "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+This paper provides a statistical model for understanding this 
+\begin_inset Quotes eld
+\end_inset
+
+paradox.
+\begin_inset Quotes erd
+\end_inset
+
+ It shows that post-hoc theory is clearly suboptimal if the sole goal of research is unbiased empirical results.
+ Given statistic's the 100-year obsession with unbiasedness (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "efron2001statistical"
+literal "false"
+
+\end_inset
+
+),
+ it is perhaps unsurprising that post-hoc theory is viewed suspiciously.
+\end_layout
+
+\begin_layout Standard
+However,
+ the goal of research is typically more then unbiased empirical results.
+ Another ubiquitous goal of research is to find 
+\begin_inset Quotes eld
+\end_inset
+
+a best something,
+\begin_inset Quotes erd
+\end_inset
+
+ whether it is a best investment strategy,
+ health intervention,
+ or language model.
+ In such settings,
+ statistical bias may not matter at all,
+ as long as research provides the powerful solution.
+\end_layout
+
+\begin_layout Standard
+If the goal is a 
+\begin_inset Quotes eld
+\end_inset
+
+best something,
+\begin_inset Quotes erd
+\end_inset
+
+ then the optimal research method trades off a 
+\emph on
+Darwinian learning
+\emph default
+ effect with a 
+\emph on
+statistical learning
+\emph default
+ effect.
+ Darwinian learning comes from weeding out bad theories by subjecting them to empirical tests.
+ Statistical learning comes simply comes from theorists being able to form better theories after observing the data.
+ If statistical learning is stronger than Darwinian learning,
+ then post-hoc theorizing is optimal.
+\end_layout
+
+\begin_layout Standard
+In the modern world of enormous and growing datasets,
+ statistical learning is becoming more and more powerful.
+ At the same time,
+ academic politics and power,
+ with its tendency to restrict Darwinian learning,
+ shows no sign of abating.
+ For these reasons,
+ I argue that post-hoc theorizing in most cases optimal.
+\end_layout
+
+\begin_layout Subsection
+Related Literature
+\end_layout
+
+\begin_layout Standard
+In the philosophy literature,
+ a priori vs post-hoc theory is called 
+\begin_inset Quotes eld
+\end_inset
+
+predictivism
+\begin_inset Quotes erd
+\end_inset
+
+ vs 
+\begin_inset Quotes eld
+\end_inset
+
+accommodation.
+\begin_inset Quotes erd
+\end_inset
+
+ Maher (
+\begin_inset CommandInset citation
+LatexCommand citebyear
+key "maher1988prediction"
+literal "false"
+
+\end_inset
+
+,
+ 
+\begin_inset CommandInset citation
+LatexCommand citebyear
+key "maher1990prediction"
+literal "false"
+
+\end_inset
+
+) argues for predictivism,
+ using Bayesian models of the Darwinian learning effect.
+ Amid the centuries of philosophical debate (e.g.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "leibniz1678letter"
+literal "false"
+
+\end_inset
+
+;
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "newton1726scholium"
+literal "false"
+
+\end_inset
+
+),
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "barnes1996discussion"
+literal "false"
+
+\end_inset
+
+ calls Maher's analysis 
+\begin_inset Quotes eld
+\end_inset
+
+the closest thing to an illuminating account of predictivism in existence,
+\begin_inset Quotes erd
+\end_inset
+
+ despite its problems.
+ Its problems are discussed in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "howson1991maher"
+literal "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "lange2001apparent"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A key problem is that the assumptions in Maher (
+\begin_inset CommandInset citation
+LatexCommand citebyear
+key "maher1988prediction"
+literal "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset citation
+LatexCommand citebyear
+key "maher1990prediction"
+literal "false"
+
+\end_inset
+
+) are rather strong.
+ I show that their assumptions rule out the statistical learning effect.
+ Equivalent assumptions are found in the economic theory paper 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kahn1996positive"
+literal "false"
+
+\end_inset
+
+ (KLS).
+ Given that statistical learning is growing in importance year by year,
+ it is unlikely that Maher and KLS's conclusions will apply in the modern era of big data.
+\end_layout
+
+\begin_layout Standard
+Outside of philosophy,
+ the related statistics and economics literature has focused on addressing the bias from selectively reporting empirical results (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "hedges1984estimation"
+literal "false"
+
+\end_inset
+
+;
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "andrews2019identification"
+literal "false"
+
+\end_inset
+
+;
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "chen2020publication"
+literal "false"
+
+\end_inset
+
+;
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kasy2024optimal"
+literal "false"
+
+\end_inset
+
+).
+ In these models,
+ it is not at all apparent how the order of theory and data matters.
+ By building on the insights of Maher and KLS,
+ this paper shows how to formalize this distinction.
+\end_layout
+
+\begin_layout Section
+A Very Simple Model of Research
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:ez"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ideas 
+\begin_inset Formula $i\in\left\{ \alpha,\beta,\gamma\right\} $
+\end_inset
+
+ have (latent) effects 
+\begin_inset Formula 
+\begin{align}
+\mu_{\alpha}>\mu_{\beta}>\mu_{\gamma}.
+\end{align}
+
+\end_inset
+
+
+\begin_inset Formula $i$
+\end_inset
+
+ may be a potential real-world choice for readers (e.g.
+ an investment strategy),
+ in which case 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ is the 
+\begin_inset Quotes eld
+\end_inset
+
+post-research
+\begin_inset Quotes erd
+\end_inset
+
+ effect of 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Or 
+\begin_inset Formula $i$
+\end_inset
+
+ may be an explanation for some real-world phenomenon,
+ in which case 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ is the explanation's fit to post-research data.
+ In either case,
+ higher 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ is better.
+\end_layout
+
+\begin_layout Standard
+These effects and their ordering are unknown to the research community.
+ Instead,
+ researchers can observe the measured effect of 
+\begin_inset Formula $i$
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{align}
+\hat{\mu}_{i}\sim\text{Normal}\left(\mu_{i},1\right).
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $i$
+\end_inset
+
+ is either consistent with theory or not.
+ For simplicity,
+ suppose theory is able to rule out the worst idea 
+\begin_inset Formula $\gamma$
+\end_inset
+
+:
+ 
+\begin_inset Formula 
+\begin{align}
+\text{\ensuremath{i} is consistent with theory if }i\in\left\{ \alpha,\beta\right\} .
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Theory can be applied either a priori or post hoc:
+ 
+\end_layout
+
+\begin_layout Itemize
+If theory is applied a priori,
+ then the researcher selects randomly from 
+\begin_inset Formula $\left\{ \alpha,\beta\right\} $
+\end_inset
+
+,
+ and announces the selected 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+If theory is applied post hoc,
+ the researcher first examines the data and ranks 
+\begin_inset Formula $\{\hat{\mu}_{\alpha},\hat{\mu}_{\beta},\hat{\mu}_{\gamma}\}$
+\end_inset
+
+.
+ Then the researcher chooses 
+\begin_inset Formula $i$
+\end_inset
+
+ to solve
+\begin_inset Formula 
+\begin{align}
+\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}.\label{eq:given-ihat}
+\end{align}
+
+\end_inset
+
+(the largest effect,
+ subject to the effect being consistent with theory.
+ 
+\end_layout
+
+\begin_layout Subsection
+A Priori Theory is the Unbiased Ideal
+\end_layout
+
+\begin_layout Standard
+If the sole goal of research is to find an unbiased estimate of the true policy effect,
+ then a priori theorizing,
+ with no statistical hurdle,
+ achieves this goal.
+\end_layout
+
+\begin_layout Standard
+The expected effect of a priori theory is 
+\begin_inset Formula 
+\begin{align}
+E\left(\hat{\mu}_{i}\mid i\in\left\{ \alpha,\beta\right\} \right) & =E\left(\mu_{i}\mid i\in\left\{ \alpha,\beta\right\} \right)\label{eq:unbiased}
+\end{align}
+
+\end_inset
+
+[tbc:
+ unbiasedness,
+ fisher]
+\end_layout
+
+\begin_layout Standard
+The expected effect of post-hoc theory is 
+\begin_inset Formula 
+\begin{align}
+E\Bigl(\hat{\mu}_{i}\big|i=\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}\Bigr) & >E\Bigl(\mu_{i}\big|i=\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}\Bigr)\label{eq:post_hoc}
+\end{align}
+
+\end_inset
+
+[tbc:
+ data mining bias,
+ p-hacking,
+ etc]
+\end_layout
+
+\begin_layout Subsection
+In Practice,
+ Post-Hoc Theory is Optimal
+\end_layout
+
+\begin_layout Standard
+In an ideal world,
+ unbiased estimates like 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:unbiased"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ are all you need.
+ One just needs many,
+ many unbiased estimates,
+ and eventually one has an estimate for every policy,
+ including the best policies.
+\end_layout
+
+\begin_layout Standard
+But in the real world,
+ consumers and producers of research have limited time.
+ Consumers lack the time to digest estimates for every policy.
+ The producers of research do not have time to ensure the accuracy of every policy.
+\end_layout
+
+\begin_layout Standard
+To map this to the model,
+ research is then restricted to report only a single 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ and readers are interested in 
+\begin_inset Formula $i$
+\end_inset
+
+ with the largest 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+.
+ In this case,
+ post-hoc theory is optimal because 
+\begin_inset Formula 
+\begin{align}
+E\bigg(\mu_{i}\big|i=\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}\bigg) & >E\left(\mu_{i}\mid i\in\left\{ \alpha,\beta\right\} \right)
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+[tbc:
+ examples,
+ llms,
+ CLZ,
+ health interventions]
+\end_layout
+
+\begin_layout Subsection
+An Irrelevance Result
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:ez/irr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In practice,
+ the Fisherian ideal is impossible.
+ Even if all researchers use theory a priori,
+ readers are more likely to read the research if the measured effect is large.
+\end_layout
+
+\begin_layout Standard
+In the model,
+ this means that a priori theory actually involves two steps.
+ First,
+ the researcher selects 
+\begin_inset Formula $i\in\left\{ \alpha,\beta\right\} $
+\end_inset
+
+ (applies theory).
+ Then,
+ the reader reads only about 
+\begin_inset Formula $i$
+\end_inset
+
+ with the largest 
+\begin_inset Formula $\hat{\mu}_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The expected measured effect of this,
+ more realistic,
+ a priori theory process is 
+\begin_inset Formula 
+\begin{align}
+E\Bigl(\hat{\mu}_{i}\big|i\in\left\{ \alpha,\beta\right\} ,i=\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}\Bigr) & =E\Bigl(\hat{\mu}_{i}\big|i=\arg\max_{i'\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i'}\Bigr)
+\end{align}
+
+\end_inset
+
+which is exactly the same as in the post-hoc theory case 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:post_hoc"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+[tbc:
+ note on how KLS discuss this,
+ as well as philosophy papers (I should find at least one)]
+\end_layout
+
+\begin_layout Section
+Endogenous,
+ Heterogeneous Theories
+\end_layout
+
+\begin_layout Standard
+Let's make the model richer.
+ Now theories come from combining a theorist of with a data input.
+ 
+\end_layout
+
+\begin_layout Standard
+The data input is known.
+ Let 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ be case that the theorist has access to data on all of the measured effects (
+\begin_inset Formula $\hat{\mu}_{\alpha},\hat{\mu}_{\beta},\hat{\mu}_{\gamma}$
+\end_inset
+
+).
+ 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ is the case that the theorist has no data.
+ Post-hoc theorizing,
+ then,
+ is represented by 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The theorist type is unknown.
+ For simplicity,
+ assume the type is either good (represented by 
+\begin_inset Formula $G$
+\end_inset
+
+) or bad (
+\begin_inset Formula $B$
+\end_inset
+
+).
+ Intuitively,
+ not all theorists are the same.
+ 
+\end_layout
+
+\begin_layout Standard
+Combining a theorist with a data input leads to a recommended idea 
+\begin_inset Formula 
+\begin{align*}
+i^{\ast} & \in\left\{ \alpha,\beta\right\} ,
+\end{align*}
+
+\end_inset
+
+where I continue to assume that theory rules out the worst idea 
+\begin_inset Formula $\gamma$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+After 
+\begin_inset Formula $i^{\ast}$
+\end_inset
+
+ is chosen,
+ readers decide if they are interested in the idea.
+ Assume readers are uninterested unless 
+\begin_inset Formula 
+\begin{align*}
+\hat{\mu}_{i^{\ast}} & >h,
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $h$
+\end_inset
+
+ is some kind of economic and/or statistical hurdle.
+\end_layout
+
+\begin_layout Standard
+With little loss of generality,
+ assume good theorists are better at finding 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ 
+\emph on
+a priori
+\emph default
+:
+ 
+\begin_inset Formula 
+\begin{align}
+\Pr\left(i^{\ast}=\alpha\mid G,\mathcal{O}\right)>\Pr\left(i^{\ast}=\alpha\mid B,\mathcal{O}\right).\label{eq:given-Gbetter}
+\end{align}
+
+\end_inset
+
+As a result,
+ good theorists typically lead to a larger measured effect
+\begin_inset Formula $\hat{\mu}_{i^{\ast}}$
+\end_inset
+
+ than bad theorists.
+\end_layout
+
+\begin_layout Standard
+However,
+ if theory is done 
+\emph on
+post hoc
+\emph default
+,
+ bad theorists can 
+\begin_inset Quotes eld
+\end_inset
+
+mine
+\begin_inset Quotes erd
+\end_inset
+
+ the data for large 
+\begin_inset Formula $\hat{\mu}_{i}$
+\end_inset
+
+ and reverse engineer the theory.
+ In particular,
+ suppose 
+\begin_inset Formula 
+\begin{align*}
+\Pr\left(i^{\ast}=\arg\max_{i\in\left\{ \alpha,\beta\right\} }\hat{\mu}_{i}\mid B,\mathcal{D}\right) & =1.0,
+\end{align*}
+
+\end_inset
+
+that is,
+ bad theorists always select the idea with the strongest measured effect (provided the idea is consistent with 
+\emph on
+some
+\emph default
+ theory).
+ In contrast,
+ a good theorist weighs both her own prior beliefs,
+ as well as the measured effects,
+ in selecting 
+\begin_inset Formula $i^{\ast}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\end_layout
+
+\begin_layout Subsection
+Darwinian Selection
+\end_layout
+
+\begin_layout Standard
+There's a common intuition that 
+\emph on
+a priori 
+\emph default
+theorizing provides 
+\begin_inset Quotes eld
+\end_inset
+
+discipline
+\begin_inset Quotes erd
+\end_inset
+
+ and that 
+\emph on
+post hoc 
+\emph default
+theory is in some sense 
+\begin_inset Quotes eld
+\end_inset
+
+too easy.
+\begin_inset Quotes erd
+\end_inset
+
+ The following proposition formalizes this intuition.
+ 
+\end_layout
+
+\begin_layout Proposition
+[Darwinian Selection] 
+\begin_inset Formula 
+\begin{align*}
+P\left(G|\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)-P\left(G|\mathcal{\mathcal{D}},\hat{\mu}_{i^{\ast}}>h\right) & >0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Apply Bayes rule to the LHS and simplify to yield
+\begin_inset Formula 
+\begin{align*}
+\frac{P\left(\hat{\mu}_{i^{\ast}}>h|G,\mathcal{O}\right)}{P\left(\hat{\mu}_{i^{\ast}}>h|B,\mathcal{O}\right)} & >\frac{P\left(\hat{\mu}_{i^{\ast}}>h|G,\mathcal{\mathcal{D}}\right)}{P\left(\hat{\mu}_{i^{\ast}}>h|B,\mathcal{\mathcal{D}}\right)}
+\end{align*}
+
+\end_inset
+
+Because good theorists are more likely to find 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ the LHS is less than 1.0.
+ But since bad theorists always select the largest 
+\begin_inset Formula $\hat{\mu}_{i}$
+\end_inset
+
+,
+ the RHS is at most 1.0.
+ 
+\end_layout
+
+\begin_layout Standard
+Heterogeneous theorists 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:given-Gbetter"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and reverse-engineered theories 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:given-ihat"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ lead to
+\end_layout
+
+\begin_layout Subsection
+Optimal Post-Hoc Theory
+\end_layout
+
+\begin_layout Standard
+The ultimate goal is not to find good theorists,
+ but to find good ideas.
+ Whether or not 
+\emph on
+post hoc
+\emph default
+ theory helps or hurts for the ultimate goal,
+ is characterized in this proposition:
+\end_layout
+
+\begin_layout Proposition
+[Optimal Post Hoc Theory]
+\begin_inset Formula 
+\begin{align*}
+E\left(\mu_{i^{\ast}}|\mathcal{\mathcal{D}},\hat{\mu}_{i^{\ast}}>h\right) & >E\left(\mu_{i^{\ast}}|\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)
+\end{align*}
+
+\end_inset
+
+if and only if 
+\begin_inset Formula 
+\begin{align*}
+\text{\left[\text{Statistical Learning}\right]} & >\left[\text{Darwinian Learning}\right]
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula 
+\begin{align*}
+\left[\text{Statistical Learning}\right] & \equiv E\bigg\{\Pr\left(i^{\ast}=\alpha|T,\mathcal{D},\hat{\mu}_{i^{\ast}}>h\right)-\Pr\left(i^{\ast}=\alpha|T,\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)\Big|\mathcal{D}\bigg\}\\
+\left[\text{Darwinian Learning}\right] & \equiv\left[P\left(G|\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)-\Pr\left(G|\mathcal{D},\hat{\mu}_{i^{\ast}}>h\right)\right]\\
+ & \quad\times\left[\Pr\left(i^{\ast}=\alpha|G,\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)-\Pr\left(i^{\ast}=\alpha|B,\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "post_hoc"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

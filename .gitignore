@@ -1,0 +1,19 @@
+Notes/*
+zzz*
+
+# ignore latex auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.bcf
+*.run.xml
+*.synctex*
+*.lyx~
+
+# ignore to do list
+Post Hoc To Do.docx

@@ -1,0 +1,261 @@
+% graphics, colors
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\definecolor{ChadDarkBlue}{rgb}{.1,0,.2}
+\definecolor{ChadBlue}{rgb}{.1,.1,.5}
+\definecolor{ChadRoyal}{rgb}{.2,.2,.8}
+\definecolor{ChadGreen}{rgb}{0,.4,0}    % Dark Green
+\definecolor{ChadRed}{rgb}{.5,0,.5}  % purple
+
+\definecolor{DarkerGreen}{rgb}{0,.35,0}    % Darker Green
+\definecolor{ChenBlack}{rgb}{0,0,0}    
+\definecolor{ChenGreen}{rgb}{0,.30,0}  
+
+\definecolor{ChenBlue}{rgb}{0,0,.5}
+\definecolor{ChenRed}{rgb}{0.6,0,0}
+\definecolor{ChenGreen}{rgb}{0,.6,0}    % Dark Green
+
+
+% tables figures appendix: not sure in Auctex
+\usepackage{booktabs,bigstrut,multirow,tabularx,caption,subcaption,threeparttable, rotating, lscape, makecell}
+%\usepackage[section]{placeins} % allows \Floatbarrier, but can cause blank spaces
+\captionsetup[figure]{labelfont={color=Black,bf}}
+\captionsetup[table]{labelfont={color=Black,bf}}
+\usepackage{appendix}
+
+% title colors: not sure if this works in auctex
+%\usepackage{titlesec}
+%\titlelabel{\thetitle. \quad}
+%\titleformat*{\section}{\normalfont\Large\bfseries\color{Black}}
+%\titleformat*{\subsection}{\normalfont\large\bfseries\color{Black}}
+%\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\color{Black}}
+%\titleformat*{\paragraph}{\normalfont\normalsize\bfseries\color{Black}}
+
+% --- useability --- %
+\usepackage{hyperref} % this seems to screw up the AucTeX preview
+\hypersetup{hidelinks}
+\newcommand{\bluemath}[1]{\textcolor[rgb]{0.00,0.00,0.50}{#1}}
+\newcommand{\blue}[1]{\textbf{\textcolor{ChenBlue}{#1}}}
+\newcommand{\red}[1]{\textbf{\textcolor{ChenRed}{#1}}}
+\newcommand{\green}[1]{\textbf{\textcolor{ChenGreen}{#1}}}
+%\usepackage{pdfsync} % this causes conflicts with lineno
+
+
+% margins and spacing
+\usepackage{indentfirst}
+\usepackage[top=1.0in, bottom=1.0in, left=1.5in, right=1.5in]{geometry}
+\setlength{\parsep}{0.0cm}
+\setlength{\parskip}{0.1cm}
+\onehalfspacing
+
+
+% Fix overfull hboxes
+\usepackage[shortcuts]{extdash}
+\sloppy
+
+% Color and Style
+% \usepackage{fourier}
+
+\renewcommand{\abstractname}{\color{ChadBlue}Abstract}
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\color{Black}\bfseries}
+
+
+% Fix LyX equation numbering
+% https://wiki.lyx.org/Tips/EquationNumbering
+%\renewcommand\[{\begin{equation}} 
+%\renewcommand\]{\end{equation}} 
+% https://tex.stackexchange.com/questions/57948/automatic-equation-numbering-in-lyx
+%\renewenvironment{align*}{\align}{\endalign}
+
+% Fix LyX Theorem Labelling
+\providecommand{\thmautorefname}{Theorem}
+\providecommand{\corautorefname}{Corollary}
+\providecommand{\lemautorefname}{Lemma}
+\providecommand{\propautorefname}{Proposition}
+
+
+
+\DeclareMathOperator*{\plim}{plim}
+
+
+% custom commands
+\newcommand{\nullt}{\text{null}}
+\newcommand{\bad}{\text{bad}}
+\newcommand{\pub}{\text{pub}}
+\newcommand{\tbar}{\bar{t}}
+\newcommand{\FDR}{\text{FDR}}
+\newcommand{\FDP}{\text{FDP}}
+\newcommand{\Fdr}{\text{Fdr}}
+\newcommand{\obs}{\text{obs}}
+\newcommand{\SE}{\text{SE}}
+\newcommand{\SD}{\text{SD}}
+\newcommand{\thur}{t_\text{hurdle}}
+\newcommand{\Nall}{N_{\text{all}}}
+\newcommand{\Nsim}{N_{\text{sim}}}
+\newcommand{\pval}{\text{pval}}
+\newcommand{\ip}[1]{i_{(#1)}}
+\newcommand{\data}{\text{data}}
+
+
+% line numbers
+%\usepackage[pagewise]{lineno}
+%\linenumbers
+
+
+% --- time subscipts --- $
+\newcommand{\kt}{k_{t}}                 \newcommand{\ktp}{k_{t+1}}              \newcommand{\ktpp}{k_{t+2}}
+\newcommand{\zt}{z_{t}}                 \newcommand{\ztp}{z_{t+1}}
+\newcommand{\nt}{n_{t}}                 \newcommand{\ntp}{n_{t+1}}
+\newcommand{\ut}{u_{t}}                 \newcommand{\utp}{u_{t+1}}
+\newcommand{\yt}{y_{t}}                 \newcommand{\ytp}{y_{t+1}}
+\newcommand{\itp}{i_{t+1}}
+\newcommand{\epsilont}{\epsilon_{t}}    \newcommand{\epsilontp}{\epsilon_{t+1}}
+
+
+
+
+% --- hat --- %
+\newcommand{\Ahat}{\hat{A}} \newcommand{\ahat}{\hat{a}}
+\newcommand{\Khat}{\hat{K}} \newcommand{\khat}{\hat{k}}
+\newcommand{\Shat}{\hat{S}} \newcommand{\shat}{\hat{s}}
+\newcommand{\Chat}{\hat{C}} \newcommand{\chat}{\hat{c}}
+\newcommand{\Vhat}{\hat{V}}
+\newcommand{\Dhat}{\hat{D}}
+\newcommand{\Ghat}{\hat{G}} \newcommand{\ghat}{\hat{g}}
+\newcommand{\Hhat}{\hat{H}}
+\newcommand{\Ihat}{\hat{I}}
+\newcommand{\Phat}{\hat{P}} \newcommand{\phat}{\hat{p}}
+\newcommand{\Rhat}{\hat{R}} \newcommand{\rhat}{\hat{r}}
+\newcommand{\Xhat}{\hat{X}} \newcommand{\xhat}{\hat{x}}
+\newcommand{\Yhat}{\hat{Y}} \newcommand{\yhat}{\hat{y}}
+\newcommand{\Zhat}{\hat{Z}} \newcommand{\zhat}{\hat{z}}
+
+
+\newcommand{\betahat}{\hat{\beta}}
+\newcommand{\thetahat}{\hat{\theta}} \newcommand{\Thetahat}{\hat{\Theta}}
+\newcommand{\lambdahat}{\hat{\lambda}}
+\newcommand{\Phihat}{\hat{\Phi}} \newcommand{\phihat}{\hat{\phi}}
+\newcommand{\Pihat}{\hat{\Pi}} \newcommand{\pihat}{\hat{\pi}}
+\newcommand{\Sigmahat}{\hat{\Sigma}} \newcommand{\sigmahat}{\hat{\sigma}}
+\newcommand{\muhat}{\hat{\mu}}
+\newcommand{\etahat}{\hat{\eta}}
+
+% --- bar --- %
+\newcommand{\Abar}{\bar{A}} \newcommand{\abar}{\bar{a}}
+\newcommand{\Cbar}{\bar{C}} \newcommand{\cbar}{\bar{c}}
+\newcommand{\Dbar}{\bar{D}} \newcommand{\dbar}{\bar{d}}
+\newcommand{\Ebar}{\bar{E}} \newcommand{\ebar}{\bar{e}}
+\newcommand{\Fbar}{\bar{F}} \newcommand{\fbar}{\bar{f}}
+\newcommand{\Gbar}{\bar{G}} \newcommand{\gbar}{\bar{g}}
+\newcommand{\Ibar}{\bar{I}} \newcommand{\ibar}{\bar{i}}
+\newcommand{\Jbar}{\bar{J}} \newcommand{\jbar}{\bar{j}}
+\newcommand{\Kbar}{\bar{K}} \newcommand{\kbar}{\bar{k}}
+\newcommand{\Nbar}{\bar{N}} \newcommand{\nbar}{\bar{n}}
+\newcommand{\Pbar}{\bar{P}} \newcommand{\pbar}{\bar{p}}
+\newcommand{\Qbar}{\bar{Q}} \newcommand{\qbar}{\bar{q}}
+\newcommand{\Rbar}{\bar{R}} \newcommand{\rbar}{\bar{r}}
+\newcommand{\Sbar}{\bar{S}} \newcommand{\sbar}{\bar{s}}
+\newcommand{\Ubar}{\bar{U}} \newcommand{\ubar}{\bar{u}}
+\newcommand{\Xbar}{\bar{X}} \newcommand{\xbar}{\bar{x}}
+\newcommand{\Ybar}{\bar{Y}} \newcommand{\ybar}{\bar{y}}
+\newcommand{\Zbar}{\bar{Z}} \newcommand{\zbar}{\bar{z}}
+\newcommand{\Vbar}{\bar{V}} \newcommand{\vbar}{\bar{v}}
+
+\newcommand{\IKbar}{\overline{IK}}
+\newcommand{\YCbar}{\overline{YC}}
+\newcommand{\YKbar}{\overline{YK}}
+\newcommand{\ICbar}{\overline{IC}}
+\newcommand{\KCbar}{\overline{KC}}
+
+\newcommand{\Epsilonbar}{\bar{\Epsilon}}
+\newcommand{\epsilonbar}{\bar{\epsilon}}
+\newcommand{\mubar}{\bar{\mu}}
+
+\newcommand{\Phibar}{\bar{\Phi}} \newcommand{\phibar}{\bar{\phi}}
+\newcommand{\pibar}{\bar{\pi}}
+\newcommand{\sigmabar}{\bar{\sigma}}
+\newcommand{\betabar}{\bar{\beta}}
+
+% --- tilde --- %
+\newcommand{\Ctil}{\tilde{C}} \newcommand{\ctil}{\tilde{c}}
+\newcommand{\Ktil}{\tilde{K}} \newcommand{\ktil}{\tilde{k}}
+\newcommand{\Itil}{\tilde{I}} \newcommand{\itil}{\tilde{i}}
+\newcommand{\Htil}{\tilde{H}} \newcommand{\htil}{\tilde{h}}
+\newcommand{\Dtil}{\tilde{D}} \newcommand{\dtil}{\tilde{d}}
+\newcommand{\Ntil}{\tilde{N}} \newcommand{\ntil}{\tilde{n}}
+\newcommand{\Ptil}{\tilde{P}} \newcommand{\ptil}{\tilde{p}}
+\newcommand{\Rtil}{\tilde{R}} \newcommand{\rtil}{\tilde{r}}
+\newcommand{\Stil}{\tilde{S}} \newcommand{\stil}{\tilde{s}}
+\newcommand{\Util}{\tilde{U}} \newcommand{\util}{\tilde{u}}
+\newcommand{\Vtil}{\tilde{V}} \newcommand{\vtil}{\tilde{v}}
+\newcommand{\Wtil}{\tilde{W}} \newcommand{\wtil}{\tilde{w}}
+
+\newcommand{\Gammatil}{\tilde{\Gamma}}
+\newcommand{\deltatil}{\tilde{\delta}}
+\newcommand{\mutil}{\tilde{\mu}}
+\newcommand{\thetatil}{\tilde{\theta}}
+\newcommand{\Psitil}{\tilde{\Psi}} \newcommand{\psitil}{\tilde{\psi}}
+\newcommand{\sigmatil}{\tilde{\sigma}}
+\newcommand{\Omegatil}{\tilde{\Omega}} \newcommand{\omegatil}{\tilde{\omega}}
+
+\newcommand{\Khattil}{\hat{\tilde{K}}}
+\newcommand{\Ihattil}{\hat{\tilde{I}}}
+\newcommand{\Chattil}{\hat{\tilde{C}}}
+
+% --- other --- %
+\newcommand{\pd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\pdb}[1]{\frac{\partial^2}{\partial #1^2}}
+
+\newcommand{\pdf}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdfb}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\pdfc}[2]{\frac{\partial^3 #1}{\partial #2^3}}
+
+\newcommand{\sumnice}[2]{ \displaystyle\sum\limits_{#1}^{#2} }
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newcommand{\spc}[0]{\vspace{.1in}}
+\newcommand{\fignote}[2]{\begin{center}\parbox[c]{#1}{\footnotesize #2} \end{center}}
+\newcommand{\tabnote}[2]{\begin{center}\parbox[c]{#1}{\footnotesize #2} \end{center}}
+
+\newcommand{\UB}[2]{\underbrace{#1}_{\textnormal{#2}}}
+
+\newcommand{\halfpar}{\left( \frac{1}{2} \right)}
+
+\newcommand{\myhttp}{https://sites.google.com/site/chenandrewy/}
+
+\newcommand{\tgood}{t_\text{good}}
+
+% Possessive citation command
+\newcommand{\citepos}[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+
+% - fix list too deeply nested error -
+\usepackage{enumitem}
+\setlistdepth{6}
+\newlist{enumdeep}{enumerate}{6}
+\setlist[enumdeep,1]{label=(\arabic*)}
+\setlist[enumdeep,2]{label=(\Roman*)}
+\setlist[enumdeep,3]{label=(\Alph*)}
+\setlist[enumdeep,4]{label=(\roman*)}
+\setlist[enumdeep,5]{label=(\alph*)}
+\setlist[enumdeep,6]{label=(\arabic*)}
+
+
+% Theorems (for lyx compatibility)
+% \theoremstyle{plain}
+% \newtheorem{prop}{\protect\propositionname}
+
+% \makeatother
+
+% \providecommand{\propositionname}{Proposition}
+
+% theorem numbering
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+% mathbb
+\usepackage{amsfonts}
