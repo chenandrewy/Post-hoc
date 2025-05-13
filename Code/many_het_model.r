@@ -1,24 +1,21 @@
-# %% Setup ==============================================
+#%% Setup ==============================================
 
 # Andrew 2025 05
 # Simulates many het models
-
 rm(list = ls())
+
 library(here)
-source(here("Code", "utils.r"))
+source(here('Code', 'utils.r'))
 
 seed = 1027
 
 # baseline ap optimal parameters
+# parameter order must match head (simulate_fund)
 par0 = tibble(
-  # required parameters in order
-  n_ideas = 100,
-  n_theorist = 10000,
-  Pr_good = 0.5,
-  mu_sig = 0.1,
-  ep_sig = 1,
-  qbad = 0.01,
-  qgood = 0.99,
+  # fixed
+  n_ideas = 100, n_theorist = 10000, Pr_good = 0.5,
+  mu_sig = 0.5, ep_sig = 1,
+  qbad = 0.01, qgood = 0.99,
   # optional parameters
   h = 2
 )
@@ -27,9 +24,8 @@ par0 = tibble(
 
 # simulate fundamentals and get litplus and litplussum
 set.seed(seed)
-sim <- do.call(simulate_fund, as.list(par0))
+sim <- do.call(simulate_fund, as.list(par0) %>% c(return_fund = TRUE))
 
-sim$litplussum 
 
 # = histogram plot edits =
 ANNOTATE_TEXT_SIZE = 5
@@ -108,7 +104,7 @@ p_testing <- gridExtra::arrangeGrob(
 )
 
 ggsave(
-  here("Results", "zzz-many-het-testing.pdf"),
+  here('Results', 'many-par0-check.pdf'),
   p_testing,
   width = 8, height = 8, scale = 1.0,
   device = cairo_pdf
@@ -117,43 +113,126 @@ ggsave(
 
 #%% Simulate many  ====================
 
+num_sim = 30
+
 # make a grid of parameter values
 manyset = expand_grid(
-  # ep_sig = seq(1, 0.5, length.out = 2),
   # qgood = seq(0.99, 0.10, length.out = 5),
-  mu_sig = seq(0.10, 2.00, length.out = 5)
+  mu_sig = seq(par0$mu_sig, sqrt(50)*par0$mu_sig, length.out = num_sim)
+  # n_ideas = seq(par0$n_ideas, 1000, length.out = num_sim) %>% round()
 ) %>% 
   mutate(setid = 1:n())
 
-
 # simulate for each set
-manysum = foreach(setid = 1:nrow(manyset), .combine = rbind) %do% {
-    print(paste0("setid: ", setid, " of ", nrow(manyset)))    
-   
+litplussum_list <- list()
+prop2_list <- list()
+for (setid in 1:nrow(manyset)) {
+    print(paste0(
+      "setid: ", setid, " of ", nrow(manyset), ", ", manyset %>% select(-setid) %>% names(), 
+      " = ", manyset[setid, 1] %>% round(2)
+    ))
     # Add parameters from manyset
     temppar = par0
     update_me = manyset %>% select(-setid) %>% names()
     for (col in update_me) { 
         temppar[1, col] = manyset[setid, col]
     }
-    
+
     # Call simulate_fund with all parameters
     sim <- do.call(simulate_fund, as.list(temppar))
 
-    litplussum = sim$litplussum %>% mutate(setid = setid)
-    
-    return(litplussum)
-}
+    litplussum_list[[setid]] <- sim$litplussum %>% mutate(setid = setid)
+    prop2_list[[setid]] <- sim$prop2 %>% mutate(setid = setid)
+} # end for setid
 
-manysum = manysum %>% left_join(manyset, by = "setid")
+#%% Combine and clean ==============================
 
-# test output
-varselect = 'mu_sig'
-manysum %>% filter(hurdle == 'h') %>% 
-  select(setid, !!sym(varselect), method, Emu, Pr_good, N_good) %>%  
-  pivot_wider(names_from = method, values_from = c(Emu, Pr_good, N_good), names_glue = "{method}_{.value}") %>% 
-  mutate(ph_delta = ph_Emu - ap_Emu) %>% 
-  select(setid, !!sym(varselect), ph_delta, everything()) 
+litplussum = bind_rows(litplussum_list)
+prop2 = bind_rows(prop2_list)
+
+# add parameters to prop2 and litplussum
+prop2 = prop2 %>% left_join(manyset, by = "setid") %>% 
+  select(all_of(manyset %>% names()), everything())
+litplussum = litplussum %>% left_join(manyset, by = "setid") %>% 
+  select(all_of(manyset %>% names()), everything()) 
+
+# add a few items to prop2
+prop2 = prop2 %>% 
+  left_join(
+    litplussum %>% filter(hurdle == 'h', type == 'any') %>% 
+      select(setid, method, n, Emu) %>% 
+      pivot_wider(names_from = method, values_from = c(n, Emu)),
+    by = "setid"
+  )
+
+#%% Plot 
+
+xvar = manyset %>% select(-setid) %>% names()
+
+plotme = prop2 %>% filter(mu_sig < 2)
+
+# where dlearn = slearn
+x0 = prop2 %>% arrange(abs(dlearn - slearn)) %>% slice(1) %>% pull(!!xvar)
+
+learn_aes = tibble(
+  method = c("slearn", "dlearn"),
+  label = c("Statistical", "Darwinian"),
+  shape = c(16, 8),
+  color = c(MATBLUE, MATORANGE),
+  linetype = c("solid", "dashed")
+)
+
+p1 = plotme %>% 
+  mutate(pct_delta_ph = 100*(Emu_ph - Emu_ap)/Emu_ap) %>% 
+  select(!!xvar, pct_delta_ph) %>% 
+  pivot_longer(cols = -!!xvar) %>% 
+  ggplot(aes(x = .data[[xvar]], y = value)) +
+  # add a horizontal line at 0
+  geom_hline(yintercept = 0, color = "black", linetype = "solid") +
+  # add a vertical line at x0
+  geom_vline(xintercept = x0, color = "black", linetype = "dashed") +
+  # plot the line
+  geom_line(color = MATPURPLE) +
+  geom_point(color = MATPURPLE) +
+  theme_minimal() +
+  theme(legend.position = 'none') +
+  ylab('Percent difference in E[mu]')
+
+p2 = plotme %>% 
+  select(!!xvar, slearn, dlearn) %>% 
+  pivot_longer(cols = -!!xvar) %>% 
+  ggplot(aes(x = .data[[xvar]], y = value, color = name, shape = name)) +
+  # add a vertical line at x0
+  geom_vline(xintercept = x0, color = "black", linetype = "dashed") +
+  # plot the lines
+  geom_line(aes(linetype = name)) +
+  geom_point() +
+  scale_color_manual(
+    values = setNames(learn_aes$color, learn_aes$method),
+    labels = setNames(learn_aes$label, learn_aes$method)
+  ) +
+  scale_shape_manual(
+    values = setNames(learn_aes$shape, learn_aes$method),
+    labels = setNames(learn_aes$label, learn_aes$method)
+  ) +
+  scale_linetype_manual(
+    values = setNames(learn_aes$linetype, learn_aes$method),
+    labels = setNames(learn_aes$label, learn_aes$method)
+  ) +
+  theme_minimal() +
+  theme(legend.position = c(0.2, 0.9)) +
+  ylab('Learning')
+
+
+pboth = gridExtra::arrangeGrob(p1, p2, ncol = 1)
+
+ggsave(here('Results', 'many-prop2.pdf'), pboth, 
+  width = 8, height = 8, scale = 1.0, device = cairo_pdf)
+
+
+
+  
+(3.0/0.5)^2
 
 
 #%% End ==============================

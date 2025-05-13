@@ -59,43 +59,58 @@ simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qg
   )
 
   # convenience function
-  quicksum <- function(litdat) {
-      litdat %>% summarize(
-        Emuhat = mean(muhat), Emu = mean(mu),
-        Pr_good = mean(type == "good"), 
-        N_good = sum(type == "good"), N_bad = sum(type == "bad")
-      )
+  quicksum = function(dat) {
+    dat %>% summarize(
+      Emu = mean(mu), Emuhat = mean(muhat), n = n(),
+      Pr_good = mean(type == "good"), Pr_bad = mean(type == "bad"),
+      .groups = "drop"
+    )
   }
 
-  # summarize
-  litplussum <- litplus %>%
-    group_by(method) %>%
-    quicksum() %>%
-    mutate(hurdle = "none") %>%
-    bind_rows(
-      litplus %>% filter(muhat >= h) %>% group_by(method) %>%
-        quicksum() %>% mutate(hurdle = "h")
-    ) %>%
-    select(hurdle, everything())
-
+  # find all the summaries we might need
+  litplussum = bind_rows(
+    # any type, no hurdle
+    litplus %>% group_by(method) %>% quicksum() %>% mutate(hurdle = 'none', type = 'any'),
+    # any type, hurdle
+    litplus %>% filter(muhat > h) %>% group_by(method) %>% quicksum() %>% mutate(hurdle = 'h', type = 'any'),
+    # by theorist type, no hurdle
+    litplus %>% group_by(method, type) %>% quicksum() %>% mutate(hurdle = 'none'),
+    # by theorist type, hurdle
+    litplus %>% filter(muhat > h) %>% group_by(method, type) %>% quicksum() %>% mutate(hurdle = 'h')
+  ) %>% 
+  select(hurdle, method, type, everything())
+  
   # patch in case there are no results at all
-  litplussum = expand_grid(hurdle = c("none", "h"), method = c("ap", "ph")) %>% 
-    left_join(litplussum, by = c("hurdle", "method")) %>% 
-    replace_na(list(N_good = 0, N_bad = 0))
+  litplussum = expand_grid(hurdle = c("none", "h"), method = c("ap", "ph"), type = c("any", "good", "bad")) %>% 
+    mutate(type = factor(type, levels = c("any", "good", "bad"))) %>% 
+    left_join(litplussum, by = c("hurdle", "method", "type")) %>% 
+    replace_na(list(n=0)) %>% 
+    arrange(hurdle, method, type)  
+
+  # calculate terms in prop 2
+  Emu = litplussum %>% filter(hurdle == "h") %>% 
+    select(method, type, Emu) %>% 
+    pivot_wider(names_from = c(type, method), values_from = Emu)
+  
+  Pr = litplussum %>% filter(hurdle == "h", type == "any") %>% 
+    select(method, good = Pr_good, bad = Pr_bad) %>% 
+    pivot_wider(names_from = method, values_from = c(good, bad)) 
+
+  prop2 = tibble(
+    dEmu_ph = Emu$any_ph - Emu$any_ap,
+    slearn = Pr$good_ph*(Emu$good_ph - Emu$good_ap) + Pr$bad_ph*(Emu$bad_ph - Emu$bad_ap),
+    dlearn = (Pr$good_ap - Pr$good_ph)*(Emu$good_ap - Emu$bad_ap)    
+  )
 
   # Return list with or without fund
-  if (return_fund) {
-    return(list(
-      fund = fund,
-      litplus = litplus,
-      litplussum = litplussum
-    ))
-  } else {
-    return(list(
-      litplus = litplus,
-      litplussum = litplussum
-    ))
-  }
+  output = list(
+    litplus = litplus,
+    litplussum = litplussum,
+    prop2 = prop2
+  )  
+  if (return_fund) output$fund = fund  
+  return(output)
+
 } # end simulate_fund
 
 # Histogram plot
@@ -161,4 +176,34 @@ create_histogram_data <- function(data, varname, filter_condition = NULL, binwid
     binlimit = binlimit,
     prop_range = plotme %>% pull(prop) %>% range()
   ))
+}
+
+# improved list of objects
+.ls.objects <- function (pos = 1, pattern, order.by,
+                         decreasing=FALSE, head=FALSE, n=5) {
+  napply <- function(names, fn) sapply(names, function(x)
+    fn(get(x, pos = pos)))
+  names <- ls(pos = pos, pattern = pattern)
+  obj.class <- napply(names, function(x) as.character(class(x))[1])
+  obj.mode <- napply(names, mode)
+  obj.type <- ifelse(is.na(obj.class), obj.mode, obj.class)
+  obj.prettysize <- napply(names, function(x) {
+    format(utils::object.size(x), units = "auto") })
+  obj.size <- napply(names, object.size)
+  obj.dim <- t(napply(names, function(x)
+    as.numeric(dim(x))[1:2]))
+  vec <- is.na(obj.dim)[, 1] & (obj.type != "function")
+  obj.dim[vec, 1] <- napply(names, length)[vec]
+  out <- data.frame(obj.type, obj.size, obj.prettysize, obj.dim)
+  names(out) <- c("Type", "Size", "PrettySize", "Length/Rows", "Columns")
+  if (!missing(order.by))
+    out <- out[order(out[[order.by]], decreasing=decreasing), ]
+  if (head)
+    out <- head(out, n)
+  out
+}
+
+# shorthand
+lsos <- function(..., n=10) {
+  .ls.objects(..., order.by="Size", decreasing=TRUE, head=TRUE, n=n)
 }
