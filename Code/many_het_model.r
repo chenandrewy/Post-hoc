@@ -1,42 +1,42 @@
 # %% Setup ==============================================
 
 # Andrew 2025 05
-# heterogeneous theorists
+# Simulates many het models
 
 rm(list = ls())
 library(here)
 source(here("Code", "utils.r"))
 
-# simulation parameters
-n_theorist = 10000
-Pr_good = 0.5
-h = 2
 seed = 1027
 
-# clear separation
-# n_ideas = 100; mu_sig = 2; ep_sig = 1; qbad = 0.01; qgood = 0.99
+# baseline ap optimal parameters
+par0 = tibble(
+  # required parameters in order
+  n_ideas = 100,
+  n_theorist = 10000,
+  Pr_good = 0.5,
+  mu_sig = 0.1,
+  ep_sig = 1,
+  qbad = 0.01,
+  qgood = 0.99,
+  # optional parameters
+  h = 2
+)
 
-# less extreme qbad and qgood
-n_ideas = 20; mu_sig = 2; ep_sig = 1; qbad = 0.1; qgood = 0.9
-
-# ap optimal
-# n_ideas = 100; mu_sig = 0.1; ep_sig = 1; qbad = 0.01; qgood = 0.99
-
-
-#%% Simulate  ====================
+# #%% Test simulation  
 
 # simulate fundamentals and get litplus and litplussum
 set.seed(seed)
-sim <- simulate_fund(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qgood, h)
+sim <- do.call(simulate_fund, as.list(par0))
 
-#%% Create histograms ====================
-source(here("Code", "utils.r")) # for easy plot edits
+sim$litplussum 
 
 # = histogram plot edits =
 ANNOTATE_TEXT_SIZE = 5
 ANNOTATE_COLOR = MATRED
 ANNOTATE_LINE_SIZE = 1
 ANNOTATE_VJUST = 3.0
+h = par0$h
 plot_edits_muhat = list(
     xlab(expression("Measured Quality " * hat(mu)[paste("i*")])),
     geom_vline(xintercept = h, color = ANNOTATE_COLOR, size = ANNOTATE_LINE_SIZE), 
@@ -51,8 +51,7 @@ plot_edits_muhat = list(
     theme(
       legend.position = c(05,80)/100,
       axis.text = element_text(size = 14),
-    ),
-    scale_x_continuous(breaks = seq(-20, 20, 2))
+    )
 )
 
 plot_edits_mu = function(Emu) {
@@ -80,20 +79,6 @@ for (method_name in c("ap", "ph")) {
     theme(legend.position = c(7, 9) / 10) + plot_edits_muhat
 }
 
-# Save individual plots for paper
-ggsave(
-  paste0(here("Results", "litplus-muhat"), "-ap.pdf"),
-  plots$ap,
-  width = 8, height = 4, scale = 1.0,
-  device = cairo_pdf
-)
-ggsave(
-  paste0(here("Results", "litplus-muhat"), "-ph.pdf"),
-  plots$ph,
-  width = 8, height = 4, scale = 1.0,
-  device = cairo_pdf
-)
-
 # = 2) mu histogram =
 
 # Create histogram data for filtered data
@@ -113,20 +98,6 @@ for (i in seq_along(methods)) {
     theme(legend.position = c(7, 9) / 10) + plot_edits_mu(Emus[i])
 }
 
-# Save individual plots for paper
-ggsave(
-  paste0(here("Results", "lit-mu"), "-ap.pdf"),
-  lit_plots$ap,
-  width = 8, height = 4, scale = 1.0,
-  device = cairo_pdf
-)
-ggsave(
-  paste0(here("Results", "lit-mu"), "-ph.pdf"),
-  lit_plots$ph,
-  width = 8, height = 4, scale = 1.0,
-  device = cairo_pdf
-)
-
 # Save combined plot for testing
 p_testing <- gridExtra::arrangeGrob(
   plots$ap + ggtitle("a priori") + theme(legend.position = "none"),
@@ -137,8 +108,53 @@ p_testing <- gridExtra::arrangeGrob(
 )
 
 ggsave(
-  here("Results", "hist-testing.pdf"),
+  here("Results", "zzz-many-het-testing.pdf"),
   p_testing,
   width = 8, height = 8, scale = 1.0,
   device = cairo_pdf
 )
+
+
+#%% Simulate many  ====================
+
+# make a grid of parameter values
+manyset = expand_grid(
+  # ep_sig = seq(1, 0.5, length.out = 2),
+  # qgood = seq(0.99, 0.10, length.out = 5),
+  mu_sig = seq(0.10, 2.00, length.out = 5)
+) %>% 
+  mutate(setid = 1:n())
+
+
+# simulate for each set
+manysum = foreach(setid = 1:nrow(manyset), .combine = rbind) %do% {
+    print(paste0("setid: ", setid, " of ", nrow(manyset)))    
+   
+    # Add parameters from manyset
+    temppar = par0
+    update_me = manyset %>% select(-setid) %>% names()
+    for (col in update_me) { 
+        temppar[1, col] = manyset[setid, col]
+    }
+    
+    # Call simulate_fund with all parameters
+    sim <- do.call(simulate_fund, as.list(temppar))
+
+    litplussum = sim$litplussum %>% mutate(setid = setid)
+    
+    return(litplussum)
+}
+
+manysum = manysum %>% left_join(manyset, by = "setid")
+
+# test output
+varselect = 'mu_sig'
+manysum %>% filter(hurdle == 'h') %>% 
+  select(setid, !!sym(varselect), method, Emu, Pr_good, N_good) %>%  
+  pivot_wider(names_from = method, values_from = c(Emu, Pr_good, N_good), names_glue = "{method}_{.value}") %>% 
+  mutate(ph_delta = ph_Emu - ap_Emu) %>% 
+  select(setid, !!sym(varselect), ph_delta, everything()) 
+
+
+#%% End ==============================
+print('many_het_model.r complete')

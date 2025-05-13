@@ -3,6 +3,7 @@
 library(tidyverse)
 library(data.table)
 library(ggplot2)
+library(foreach)
 
 #%% Colors ==============================================
 
@@ -59,10 +60,11 @@ simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qg
 
   # convenience function
   quicksum <- function(litdat) {
-    litdat %>% summarize(
-      Emuhat = mean(muhat), Emu = mean(mu),
-      Pr_good = mean(type == "good")
-    )
+      litdat %>% summarize(
+        Emuhat = mean(muhat), Emu = mean(mu),
+        Pr_good = mean(type == "good"), 
+        N_good = sum(type == "good"), N_bad = sum(type == "bad")
+      )
   }
 
   # summarize
@@ -75,6 +77,11 @@ simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qg
         quicksum() %>% mutate(hurdle = "h")
     ) %>%
     select(hurdle, everything())
+
+  # patch in case there are no results at all
+  litplussum = expand_grid(hurdle = c("none", "h"), method = c("ap", "ph")) %>% 
+    left_join(litplussum, by = c("hurdle", "method")) %>% 
+    replace_na(list(N_good = 0, N_bad = 0))
 
   # Return list with or without fund
   if (return_fund) {
