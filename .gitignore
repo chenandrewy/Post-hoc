@@ -17,3 +17,7 @@ zzz*
 
 # ignore to do list
 Post Hoc To Do.docx
+
+# Rproj extra stuff
+.Rproj.user
+.Rhistory
