@@ -7,17 +7,24 @@ library(foreach)
 library(gridExtra)
 library(extrafont)
 
-#%% Fonts ==============================================
+#%% ggplot theme and fonts ==============================================
 
 # font_import() # uncomment to import fonts (can take a few minutes)
-# loadfonts()
+FONTSELECT <- "Palatino Linotype"
+fonts <- fonttable()
+
+# load fonts if needed
+if (!FONTSELECT %in% fonts$FamilyName) {
+  loadfonts()
+}
 
 # Use pretty font if available
-fonts <- fonttable()
-if ("Palatino Linotype" %in% fonts$FamilyName){
+if (FONTSELECT %in% fonts$FamilyName){
   theme_set(
-    theme_minimal(base_family = "Palatino Linotype")
+    theme_minimal(base_family = FONTSELECT)
   )
+} else {
+  theme_set()
 }
 
 #%% Colors ==============================================
@@ -135,15 +142,15 @@ plot_histogram <- function(
   # for standardizing histogram plots
 
   plot_out <- histdat %>%
-    ggplot(aes(x = mid, y = prop)) +
+    ggplot(aes(x = mid, y = pct)) +
     geom_bar(aes(fill = type), stat = "identity", position = "identity", alpha = 0.5) +
     scale_fill_manual(
       values = c("good" = MATBLUE, "bad" = MATORANGE),
-      name = "Theorist Type"
+      name = "Theory Type"
     ) +
     labs(
-      y = "Proportion",
-      fill = "Theorist Type"
+      y = "Proportion (%)",
+      fill = "Theory Type"
     ) +
     theme(
       panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
@@ -153,7 +160,8 @@ plot_histogram <- function(
       axis.ticks.length = unit(0.2, "cm"),
       axis.title.x = element_text(size = 14),
       axis.title.y = element_text(size = 14),
-      legend.title = element_text(size = 14),
+      axis.text = element_text(size = 12),
+      legend.title = element_text(size = 12),
       legend.text = element_text(size = 12),
       legend.position = c(0.1, .9),
       legend.justification = c(0, 1),
@@ -164,33 +172,42 @@ plot_histogram <- function(
   return(plot_out)
 } # end plot_histogram
 
-# Helper function to create histogram data
-create_histogram_data <- function(data, varname, filter_condition = NULL, binwidth = 0.5) {
-  if (!is.null(filter_condition)) {
-    data <- data %>% filter(!!filter_condition)
-  }
+# # Helper function to create histogram data
+# create_histogram_data <- function(data, varname, filter_condition = NULL, binwidth = 0.5) {
+#   if (!is.null(filter_condition)) {
+#     data <- data %>% filter(!!filter_condition)
+#   }
   
-  # get bins  
-  binlimit <- data %>% pull(get(varname)) %>% range()
-  binlimit[1] = floor(binlimit[1] / binwidth) * binwidth
-  binlimit[2] = ceiling(binlimit[2] / binwidth) * binwidth
-  edge = seq(binlimit[1], binlimit[2], by = binwidth)
-  mid <- (edge[-1] + edge[-length(edge)]) / 2
+#   # get bins  
+#   binlimit <- data %>% pull(get(varname)) %>% range()
+#   binlimit[1] = floor(binlimit[1] / binwidth) * binwidth
+#   binlimit[2] = ceiling(binlimit[2] / binwidth) * binwidth
+#   edge = seq(binlimit[1], binlimit[2], by = binwidth)
+#   mid <- (edge[-1] + edge[-length(edge)]) / 2
   
-  plotme <- data %>%
-    group_by(method, type) %>%
-    count(mid = cut(get(varname), edge, labels = mid)) %>%
-    mutate(
-      prop = n / sum(n),
-      mid = as.numeric(as.character(mid))
-    )
+#   # count
+#   histc <- data %>%
+#     group_by(method, type) %>%
+#     count(
+#       mid = cut(get(varname), edge, labels = mid),
+#       name = 'n'
+#     ) %>%
+#     ungroup() %>%
+#     mutate(
+#       mid = as.numeric(as.character(mid)),
+#       prop = n / sum(n)
+#     )
+
+#   histc %>% distinct(method)
+
+#   browser()
   
-  return(list(
-    data = plotme,
-    binlimit = binlimit,
-    prop_range = plotme %>% pull(prop) %>% range()
-  ))
-}
+#   return(list(
+#     data = plotme,
+#     binlimit = binlimit,
+#     prop_range = plotme %>% pull(prop) %>% range()
+#   ))
+# } # end create_histogram_data
 
 # improved list of objects
 .ls.objects <- function (pos = 1, pattern, order.by,
