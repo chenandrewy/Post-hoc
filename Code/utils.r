@@ -4,6 +4,21 @@ library(tidyverse)
 library(data.table)
 library(ggplot2)
 library(foreach)
+library(gridExtra)
+library(extrafont)
+
+#%% Fonts ==============================================
+
+# font_import() # uncomment to import fonts (can take a few minutes)
+# loadfonts()
+
+# Use pretty font if available
+fonts <- fonttable()
+if ("Palatino Linotype" %in% fonts$FamilyName){
+  theme_set(
+    theme_minimal(base_family = "Palatino Linotype")
+  )
+}
 
 #%% Colors ==============================================
 
@@ -130,17 +145,16 @@ plot_histogram <- function(
       y = "Proportion",
       fill = "Theorist Type"
     ) +
-    theme_minimal() +
     theme(
       panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       axis.ticks = element_line(color = "black"),
       axis.ticks.length = unit(0.2, "cm"),
-      axis.title.x = element_text(size = 16),
-      axis.title.y = element_text(size = 16),
-      legend.title = element_text(size = 16),
-      legend.text = element_text(size = 14),
+      axis.title.x = element_text(size = 14),
+      axis.title.y = element_text(size = 14),
+      legend.title = element_text(size = 14),
+      legend.text = element_text(size = 12),
       legend.position = c(0.1, .9),
       legend.justification = c(0, 1),
       legend.background = element_rect(fill = alpha("white", 06))

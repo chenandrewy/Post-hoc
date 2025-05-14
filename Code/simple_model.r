@@ -48,7 +48,6 @@ pscatter <- sim$litplus %>%
   geom_abline(slope = 1, color = decor$color, size = decor$size) +
   # scatterplot
   geom_point(aes(shape = method, color = method), size = 3) +
-  theme_minimal() +
   scale_shape_manual(
     values = setNames(method_aes$shape, method_aes$method),
     labels = setNames(method_aes$label, method_aes$method)
