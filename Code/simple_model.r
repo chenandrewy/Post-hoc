@@ -10,13 +10,13 @@ library(here)
 source(here("Code", "utils.r"))
 
 # simulation parameters
-n_theorist = 100 # number of selected ideas for each method (ap and ph)
+n_theorist = 200 # number of selected ideas for each method (ap and ph)
 Pr_good = 0.5
 h = -Inf # not used in this illustration
 seed = 427
 
 # nice for scatterplot
-n_ideas = 20; mu_sig = 2; ep_sig = 1; qbad = 0.5
+n_ideas = 100; mu_sig = 1; ep_sig = 1; qbad = 0.5
 qgood = qbad
 
 
@@ -39,15 +39,19 @@ method_aes <- tibble(
 decor = list(
     color = 'black',
     size = 1,
-    textx = -0.9
+    textx = 3,
+    texty = 3 - 0.4
 )
 
 pscatter <- sim$litplus %>%
-  ggplot(aes(x = muhat, y = mu)) +
+  # ggplot(aes(x = muhat, y = mu)) +
+  ggplot(aes(x = mu, y = muhat)) +
   # 45 degree line
   geom_abline(slope = 1, color = decor$color, size = decor$size) +
   # scatterplot
   geom_point(aes(shape = method, color = method), size = 3) +
+  # 45 degree line label
+  annotate("text", x = decor$textx, y = decor$texty, label = "45 degree line", size = 5, color = decor$color, angle = 12) +
   scale_shape_manual(
     values = setNames(method_aes$shape, method_aes$method),
     labels = setNames(method_aes$label, method_aes$method)
@@ -57,8 +61,8 @@ pscatter <- sim$litplus %>%
     labels = setNames(method_aes$label, method_aes$method)
   ) +
   labs(
-    x = expression("Measured Quality " * hat(mu)[paste("i*")]),
-    y = expression("Actual Quality " * mu[paste("i*")]),
+    x = expression("Actual Quality " * mu[paste("i*")]),
+    y = expression("Measured Quality " * hat(mu)[paste("i*")]),
     shape = "Method",
     color = "Method"
   ) +
@@ -72,9 +76,8 @@ pscatter <- sim$litplus %>%
     legend.justification = c(0, 1),
     legend.background = element_rect(fill = alpha("white", 06))
   ) +
-  scale_x_continuous(breaks = seq(-20, 20, 2)) +
-  scale_y_continuous(breaks = seq(-20, 20, 2)) +
-  annotate("text", x = decor$textx, y = -2, label = "45 degree line", size = 5, color = decor$color) 
+  scale_x_continuous(breaks = seq(-20, 20, 1)) +
+  scale_y_continuous(breaks = seq(-20, 20, 2)) 
 
 # save
 ggsave(here("Results", "simple-scatter.pdf"), pscatter, width = 8, height = 4, device = cairo_pdf, scale = 1.2)

@@ -41,44 +41,41 @@ MATRED <- rgb(0.6350, 0.0780, 0.1840)
 
 # Simulate fundamentals
 simulate_fund <- function(n_ideas, n_theorist, Pr_good, mu_sig, ep_sig, qbad, qgood, h = 2, return_fund = FALSE) {
-  # simulate "fundamentals"
-  fund <- tibble(theorist = 1:n_theorist) %>%
-    mutate(type = factor(ifelse(theorist <= n_theorist * Pr_good, "good", "bad"), 
-                        levels = c("good", "bad"))) %>%
-    # give each theorist a set of ideas to consider
-    expand_grid(ideas = 1:n_ideas) %>%
-    mutate(
-      mu = rnorm(n_ideas * n_theorist, 0, mu_sig),
-      ep = rnorm(n_ideas * n_theorist, 0, ep_sig),
-      muhat = mu + ep
-    ) %>%
-    # theorists get signals depending on mu ranking and type
-    arrange(theorist, mu) %>%
-    group_by(theorist) %>%
-    mutate(
-      signal = ifelse(type == "good",
-        1 * (row_number() >= ceiling(n_ideas * qgood)),
-        1 * (row_number() >= ceiling(n_ideas * qbad))
-      )
-    ) %>%
-    # testing
-    # mutate(signal = mu > 0) %>% 
-    # if we combine theory and data, we end up with a joint ranking
-    arrange(theorist, signal, -muhat) %>%
-    group_by(theorist, signal) %>%
-    mutate(
-      muhat_jrank = row_number()
-    ) %>%
-    ungroup()
 
-  # simulate litplus (literature + ideas that fail statistical hurdle)
-  litplus <- bind_rows(
-    fund %>% filter(signal == 1) %>% group_by(theorist) %>%
-      sample_n(1) %>% ungroup() %>%
-      mutate(method = "ap") # a priori
-    , fund %>% filter(signal == 1 & muhat_jrank == 1) %>%
-      mutate(method = "ph") # post-hoc
-  )
+  # build a frame: note we simulate two literatures: one ap and one ph
+  # (hopefully that's faster)
+  fund = expand_grid(theorist = 1:n_theorist, idea = 1:n_ideas, method = c("ap", "ph")) %>% 
+    setDT()
+
+  ntot = nrow(fund) 
+
+  # simulate theorist types and ideas
+  fund[
+    , type := factor(
+      if_else(theorist <= n_theorist * Pr_good, "good", "bad"), 
+      levels = c("good", "bad"))][
+    , mu := rnorm(ntot, 0, mu_sig)][
+    , ep := rnorm(ntot, 0, ep_sig)][
+    , muhat := mu + ep
+  ]
+
+  # theorists get signals depending on mu ranking and type
+  setorder(fund, method, theorist, -mu)
+  fund[ , mu_rank := 1:.N, by = c("method", "theorist")]
+  fund[type == "good", signal := 1 * (mu_rank <= ceiling(n_ideas * (1-qgood)))]
+  fund[type == "bad", signal := 1 * (mu_rank <= ceiling(n_ideas * (1-qbad)))]
+
+  # select ideas under ap
+  fund[ , ap_noise := runif(ntot)] # noise to break ties
+  setorder(fund, method, theorist, -signal, -ap_noise)
+  fund[method=='ap', final_rank := 1:.N, by = c("method", "theorist")]
+
+  # select ideas under ph
+  setorder(fund, method, theorist, -signal, -muhat)
+  fund[method=='ph', final_rank := 1:.N, by = c("method", "theorist")]
+
+  # litplus is the best idea under ap and ph
+  litplus = fund[final_rank == 1]
 
   # convenience function
   quicksum = function(dat) {

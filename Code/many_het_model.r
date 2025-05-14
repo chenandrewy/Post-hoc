@@ -285,6 +285,23 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
     linetype = c("solid", "dashed")
   )
 
+  theme_standard = theme(
+      panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(color = "black"),
+      axis.ticks.length = unit(0.2, "cm"),
+      axis.title.x = element_text(size = 14),
+      axis.title.y = element_text(size = 14),
+      axis.text = element_text(size = 12),
+      legend.title = element_text(size = 12),
+      legend.text = element_text(size = 12),
+      legend.position = c(0.1, .9),
+      legend.justification = c(0, 1),
+      legend.background = element_rect(fill = alpha("white", 1), color = NA),
+      legend.box.margin = margin(0, 0, 0, 0)
+  )
+
   minortextsize <- 12
 
   p_dEmu <- plotme %>%
@@ -299,11 +316,11 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
     # plot the line
     geom_line(color = MATPURPLE) +
     geom_point(color = MATPURPLE) +
+    theme_standard +
     theme(
       legend.position = "none",
-      axis.text = element_text(size = minortextsize)
     ) +
-    ylab(expression(atop("Improvement in E(" * mu[i^"*"] * ")", "from Post-Hoc Theorizing (%)"))) +
+    ylab(expression(atop("Improvement from", "Post-Hoc Theorizing (%)"))) +
     plotedits
 
   p_prop2 <- plotme %>%
@@ -328,13 +345,10 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
       values = setNames(learn_aes$linetype, learn_aes$method),
       labels = setNames(learn_aes$label, learn_aes$method)
     ) +
+    theme_standard +
     theme(
-      legend.position = c(25, 85) / 100,
-      legend.title = element_blank(),
-      legend.text = element_text(size = minortextsize),
-      axis.text = element_text(size = minortextsize),
-      legend.background = element_rect(fill = "white", color = "black"),
-      legend.margin = margin(t = 0, r = 5, b = 5, l = 5, unit = "pt")
+      legend.position = c(05, 99) / 100,
+      legend.title = element_blank()
     ) +
     ylab(expression(atop("Components of", "Proposition 2"))) +
     plotedits
@@ -346,7 +360,7 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
 
 plotedit1 <- list(
   xlab(expression(
-    "Standard Deviation of Actual Quality SD(" * mu[i] * ")"
+    "Standard Deviation of Actual Quality"
   ))
 )
 many1plot <- plot_basic(many1out$prop2, many1set$xname, plotedit1)
@@ -358,14 +372,16 @@ many2plot <- plot_basic(many2out$prop2, many2set$xname, plotedit2)
 
 
 # save plots to disk
+tempwidth = 6; tempheight = 6; tempscale = 0.9
+
 ggsave(here("Results", "many-qgood.pdf"),
   arrangeGrob(many2plot$dEmu, many2plot$prop2, ncol = 1),
-  width = 6, height = 6, scale = 1.0, device = cairo_pdf
+  width = tempwidth, height = tempheight, scale = tempscale, device = cairo_pdf
 )
 
 ggsave(here("Results", "many-mu_sig.pdf"),
   arrangeGrob(many1plot$dEmu, many1plot$prop2, ncol = 1),
-  width = 6, height = 6, scale = 1.0, device = cairo_pdf
+  width = tempwidth, height = tempheight, scale = tempscale, device = cairo_pdf
 )
 
 
