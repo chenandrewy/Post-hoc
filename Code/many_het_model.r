@@ -11,9 +11,10 @@ seed = 1027
 
 # baseline ap optimal parameters
 # parameter order must match head (simulate_fund)
+# for n_theorist = 100e3, and 30 sims, takes 5 minutes
 par0 = tibble(
   # fixed
-  n_ideas = 100, n_theorist = 10000, Pr_good = 0.5,
+  n_ideas = 100, n_theorist = 100e3, Pr_good = 0.5,
   mu_sig = 0.5, ep_sig = 1,
   qbad = 0.01, qgood = 0.99,
   # optional parameters
@@ -126,11 +127,22 @@ manyset = expand_grid(
 # simulate for each set
 litplussum_list <- list()
 prop2_list <- list()
+
+# Start timing
+start_time <- Sys.time()
+
 for (setid in 1:nrow(manyset)) {
+    # Calculate elapsed time and estimate remaining time
+    elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "mins"))
+    avg_time_per_iter <- elapsed_time / (setid - 1) 
+    remaining_time <- avg_time_per_iter * (nrow(manyset) - setid)
+    
     print(paste0(
       "setid: ", setid, " of ", nrow(manyset), ", ", manyset %>% select(-setid) %>% names(), 
-      " = ", manyset[setid, 1] %>% round(2)
+      " = ", manyset[setid, 1] %>% round(2),
+      " (Est. remaining: ", round(remaining_time, 1), " mins)"
     ))
+    
     # Add parameters from manyset
     temppar = par0
     update_me = manyset %>% select(-setid) %>% names()
@@ -169,18 +181,24 @@ prop2 = prop2 %>%
 
 xvar = manyset %>% select(-setid) %>% names()
 
-plotme = prop2 %>% filter(mu_sig < 2)
+plotme = prop2 %>% filter(mu_sig < 3)
 
 # where dlearn = slearn
 x0 = prop2 %>% arrange(abs(dlearn - slearn)) %>% slice(1) %>% pull(!!xvar)
 
 learn_aes = tibble(
   method = c("slearn", "dlearn"),
-  label = c("Statistical", "Darwinian"),
+  label = c("Statistical Learning", "Darwinian Learning"),
   shape = c(16, 8),
   color = c(MATBLUE, MATORANGE),
   linetype = c("solid", "dashed")
 )
+
+plotedits = list(
+  xlab(expression('Standard Deviation of Actual Idea Quality ' * mu[i]))
+)
+
+
 
 p1 = plotme %>% 
   mutate(pct_delta_ph = 100*(Emu_ph - Emu_ap)/Emu_ap) %>% 
@@ -196,11 +214,13 @@ p1 = plotme %>%
   geom_point(color = MATPURPLE) +
   theme_minimal() +
   theme(legend.position = 'none') +
-  ylab('Percent difference in E[mu]')
+  ylab(expression(atop('Improvement in E(' * mu[i^'*'] * ')', 'from Post-Hoc Theorizing (%)'))) +
+  plotedits
 
 p2 = plotme %>% 
   select(!!xvar, slearn, dlearn) %>% 
   pivot_longer(cols = -!!xvar) %>% 
+  mutate(name = factor(name, levels = c("slearn", "dlearn"))) %>% 
   ggplot(aes(x = .data[[xvar]], y = value, color = name, shape = name)) +
   # add a vertical line at x0
   geom_vline(xintercept = x0, color = "black", linetype = "dashed") +
@@ -220,19 +240,26 @@ p2 = plotme %>%
     labels = setNames(learn_aes$label, learn_aes$method)
   ) +
   theme_minimal() +
-  theme(legend.position = c(0.2, 0.9)) +
-  ylab('Learning')
+  theme(legend.position = c(0.2, 0.9), 
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12)
+  ) +
+  ylab(expression(atop('Components of', 'Proposition 2'))) +
+  plotedits
 
 
+# save a combined plot for checking
 pboth = gridExtra::arrangeGrob(p1, p2, ncol = 1)
-
-ggsave(here('Results', 'many-prop2.pdf'), pboth, 
+ggsave(here('Results', 'many-panelcheck.pdf'), pboth, 
   width = 8, height = 8, scale = 1.0, device = cairo_pdf)
 
+# save the plots
+ggsave(here('Results', 'many-dEmu.pdf'), p1, 
+  width = 8, height = 4, scale = 1.0, device = cairo_pdf)
 
+ggsave(here('Results', 'many-prop2.pdf'), p2, 
+  width = 8, height = 4, scale = 1.0, device = cairo_pdf)
 
-  
-(3.0/0.5)^2
 
 
 #%% End ==============================
