@@ -82,7 +82,7 @@ In the modern world of enormous datasets and massive computing power, Statistica
 
 \subsection{Related Literature}
 
-My model is an extension of the publication bias models (\citet{hedges1984estimation}; \citet{brodeur2016star}; \citet{andrews2019identification}; \citet{abadie2020statistical}; \citet{chen2020publication}; \citet{jensen2023there}; \citet{kasy2024optimal}). In these papers, it is unclear whether \emph{post hoc} theory is harmful. In fact, the models in these papers exhibit the irrelevance result found in \citet{hempel1966philosophy}; \citet{lakatos1970methodology}; and elsewhere (see Section \ref{sec:ez:irr}). Building on the insights of from the philosophy literature (namely \citealt{maher1988prediction}), I show how heterogeneous theories breaks this irrelevance. Breaking this irrelevance helps us understand the empirical findings of \citet{chen2024does}, which shows that asset pricing theories add little value for selecting strategies with strong post-research performance (see also \citet{chen2025high}).
+My model is an extension of the publication bias models (\citet{hedges1984estimation}; \citet{brodeur2016star}; \citet{andrews2019identification}; \citet{abadie2020statistical}; \citet{chen2020publication}; \citet{jensen2023there}; \citet{kasy2024optimal}). In these papers, it is unclear whether \emph{post hoc} theory is harmful. In fact, the models in these papers exhibit the irrelevance result found in \citet{hempel1966philosophy}; \citet{lakatos1970methodology}; and elsewhere (see Section \ref{sec:ez:irr}). Building on the insights of from the philosophy literature (namely \citealt{maher1988prediction}), I show how heterogeneous theories breaks this irrelevance. 
 
 In the philosophy literature, Maher (\citeyear{maher1988prediction}, \citeyear{maher1990prediction}) and Kahn, Landsburg, and Stockman (\citeyear{kahn1992novel}; \citeyear{kahn1996positive}) (KLS) study \emph{post hoc} theorizing under heterogeneous theories. They document the selection effect that I call Darwinian Learning, and conclude that \emph{a priori} theorizing is optimal, at least in normal scientific settings. Amid the centuries of  debate  (e.g. \citet{leibniz1678letter}; \citet{newton1726scholium}; \citet{keynes1921treatise}), \citet{barnes1996discussion} describes Maher's analysis as ``the closest thing to an illuminating account of predictivism in existence.'' Predictivism is the view that \emph{a priori} theorizing is optimal.
 
@@ -133,7 +133,10 @@ where $i$ is randomly selected from $S$. In contrast, the expected $\hat{\mu}_{i
 \begin{proof}
     The LHS can be written as 
     \begin{align*}
-        E\left(\mu_i \big| i = \arg\max_{j \in S} \hat{\mu}_j\right) 
+        &E\left(\mu_i \big| i = \arg\max_{j \in S} \hat{\mu}_j\right) 
+        +
+        E\left(\varepsilon_i \big| i = \arg\max_{j \in S} \hat{\mu}_j\right) \\        
+        &= E\left(\mu_i \big| i = \arg\max_{j \in S} \hat{\mu}_j\right) 
         +
         E\bigg(\varepsilon_i
         \big|
@@ -230,8 +233,7 @@ Popper does imply that theories should be well-defined and constrained.  For exa
 
 In practice, the Fisherian ideal is impossible. Even if all researchers use theory a priori, readers with time constraints are more likely to read the research if the measured effect is large.  This limited attention is arguably the raison d'etre of both peer review (\citet{klamer2002attention}) and publication bias (\citet{chen2022publication})
 
-To model limited attention, suppose \emph{a priori} theory actually involves two steps. First, the researcher selects $i\in S $
-(applies theory). Then, the reader reads only about $i$ with the largest $\hat{\mu}_{i}$ (perhaps through a screening process, like peer review). The expected quality of this, more realistic, \emph{a priori} theorizing is
+To model limited attention, suppose \emph{a priori} theory actually involves two steps. First, researchers study all ideas in $S$ and draft up their results in working papers. However, not all ideas are read.  Due to limited attention, only $i$ with the largest $\hat{\mu}_{i}$ becomes well-known and consumed by the public. The expected quality of this, more realistic, \emph{a priori} theorizing is
 \begin{align}
 E\Bigl(\mu_{i}\big|i\in S ,i=\arg\max_{i'\in S }\hat{\mu}_{i'}\Bigr) 
 & =
@@ -270,7 +272,6 @@ P\left(i^{\ast}=\arg\max_{i\in S }\hat{\mu}_{i}\mid B,\mathcal{D}\right) & =1.0,
 \end{align}
 that is, bad theories always lead researchers to select the idea with the strongest measured effect (provided the idea is consistent with \emph{some} theory).  This assumption can be thought of as bad theories being unable to distinguish between ideas in $S$, and Bayesian researchers who optimize on the posterior mean based on this information and $\hat{\mu}_{i}$ (see \citealt{chen2025high}). 
 
-
 After $i^{\ast}$ is chosen, readers decide if they are interested in the idea. Assume readers are uninterested unless 
 \begin{align}
 \hat{\mu}_{i^{\ast}} & >h,
@@ -297,6 +298,7 @@ An immediate implication of heterogeneous theories is heterogeneous measured qua
     Since $\varepsilon_{i}$ is i.i.d., adding it to $\mu_{i^{\ast}}$ preserves first-order stochastic dominance.
 \end{proof}
 
+% tbc: address how \mathcal{O} doesn't mean -no- data
 Lemma \ref{lem:darwin} provides an alternative way to think about the \citet{chen2022peer} (CLZ) ``peer review vs data mining'' experiment. CLZ compare stock trading ideas from peer review to data-mined trading ideas, using post-publication returns. The post-publication return of a trading idea can be thought of as $\hat{\mu}_{i^\ast}|\mathcal{O}$, since post-publication data could not have been used in the peer review process. We do not know if the peer-reviewed ideas were generated by $G$ or $B$ theories. In contrast, we can think of the data-mined ideas as $\hat{\mu}_{i^\ast}|B,\mathcal{O}$.  As powerfully demonstrated by \citet{novy2025ai}, anyone can add text to these ideas and call it a theory. 
 
 CLZ's post-publication returns, then, are a test of whether $G$ theories exist. If $G$ theories comprise a significant fraction of the theories in the CLZ sample, then Lemma \ref{lem:darwin} implies that the published strategies should outperform. Unfortunately, CLZ find that published strategies fail to outperform, implying that $G$ theories are rare. 
@@ -352,7 +354,7 @@ Proposition \ref{prop:darwin} captures the key insight of Maher (\citeyear{maher
 Maher and KLS push further. They claim that, not only does \emph{a priori} theorizing produce Darwinian selection, but that the resulting hypotheses are more likely to be true. The analogue here is that $\mathcal{O}$ implies not only that $G$ is more likely, but that $\mu_{i^\ast}$ is higher. We'll see that this conclusion is not necessarily true.\footnote{\citet{barnes1996discussion} revisits Maher (1988, 1990, 1993) and does not go further. His Eq (4) stops here, and considers more deeply the terms in the Bayes rule version of $P\left(G|\mathcal{O},\hat{\mu}_{i^{\ast}}>h\right)$. 
 } 
 
-An interesting feature of Proposition \ref{prop:darwin} is that it shows a virtue of publication bias. While requiring $\hat{\mu}_{i^{\ast}}>h$ leads to biased estimates, it helps weed out bad theories. This result is closely analogous to Lemma \ref{lem:ez:biased}. 
+An interesting feature of Proposition \ref{prop:darwin} is that it shows a virtue of publication bias. While requiring $\hat{\mu}_{i^{\ast}}>h$ leads to biased estimates, it helps weed out bad theories. This result is closely analogous to Lemma \ref{lem:ez:post-hoc-opt}. 
 
 
 
