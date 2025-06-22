@@ -90,35 +90,37 @@ My paper builds on Maher and KLS by showing how there is an offsetting effect to
 
 \section{A Very Simple Model of Research}\label{sec:ez}
 
-Idea $i \in \left\{ 1,2,...,N\right\} $ has quality $\mu_{i}$, which is unknown to the research community. Researchers may observe the measured quality of $i$ 
+Idea $i$ is randomly-drawn from a set $\left\{ 1,2,...,N\right\}$, and has quality $\mu_{i}$. $\mu_{i}$ is unknown but researchers can observe the measured quality
 \begin{align}
 \hat{\mu}_{i} &= \mu_{i} + \varepsilon_{i}
 \label{eq:ez:muhat}
 \end{align}
 where $E\left(\varepsilon_{i}\right) = 0$. $i$ may be a real-world choice for readers (e.g. an investment strategy), in which case $\mu_{i}$ is the realized, quality of $i$ after the research is finished (``post-research''). Or $i$ may be an explanation for some phenomenon (e.g. a model of obesity in adolescents), in which case $\mu_{i}$ is the explanation's fit to the phenomenon, post-research. In either case, higher $\mu_{i}$ is better.
 
-Theory rules out some ideas, and is characterized by a set 
+Using theory rules out some ideas, and is characterized by a set 
 \begin{align}
     S \subseteq \left\{ 1,2,...,N\right\}
     \label{eq:ez:S}
 \end{align}
-and 
+where
 \begin{align}
 \text{\ensuremath{i} is consistent with theory if }i\in S .
 \end{align}
 Theorizing turns $S$ into a selected idea $i^\ast$, and theorizing is either \emph{a priori} or \emph{post hoc}: 
 \begin{itemize}
-\item \emph{a priori}: the researcher selects randomly from $S$, and announces the selected $i^\ast$. (In this simple model, all ideas are equally consistent with theory.)
-\item \emph{post hoc}: the researcher first examines the data (observes $\{\hat{\mu}_1,\hat{\mu}_2,...\hat{\mu}_N\}$). Then the researcher chooses 
+\item \emph{a priori}: the researcher writes down a theory that implies a selected idea $i^\ast$, which is randomly-selected from $S$. (In this simple model, all ideas are equally consistent with theory.)
+\item \emph{post hoc}: the researcher first examines the data (observes $\{\hat{\mu}_1,\hat{\mu}_2,...\hat{\mu}_N\}$). Then she writes down a theory that results in selecting
 \begin{align}
     i^\ast =  \arg\max_{i\in S }\hat{\mu}_{i}.\label{eq:given-ihat}
 \end{align}
-(The researcher chooses the idea with the largest measured quality, subject to the idea being consistent with theory.)
+(The researcher chooses the idea with the highest measured quality, subject to the idea being consistent with theory.)
 \end{itemize}
+In either case, the theory is some math or text that explains why $i^\ast$ is a good idea. In this simple model, the precise nature of the theory is not important, beyond that it argues for selecting $i^\ast$. 
+
 
 \subsection{\emph{A Priori} Theorizing is the Unbiased Ideal}
 
-If the sole goal of research is to find an unbiased estimate of the idea quality, then \emph{a priori} theorizing achieves this goal.  The expected $\hat{\mu}_{i}$ from \emph{a priori} theorizing satisfies
+If the sole goal of research is to find an unbiased estimate of idea quality, then \emph{a priori} theorizing achieves this goal.  The expected $\hat{\mu}_{i}$ from \emph{a priori} theorizing satisfies
 \begin{align}
 E\left(\hat{\mu}_{i}\mid i\in S \right) &= E\left(\mu_{i}\mid i\in S \right).
 \label{eq:unbiased}
@@ -170,7 +172,7 @@ In an ideal world, estimates from \emph{a priori} theorizing are all you need. W
 
 But in the real world, consumers and producers of research have limited time. Consumers of research lack the time to read about every idea. Producers of research lack the time to carefully study every idea.
 
-To introduce this real-world limitation, suppose research is restricted to reporting only a single $i$, and readers are interested in $i$ with the largest $\mu_{i}$. 
+To introduce this real-world limitation, suppose research is restricted to reporting only a single idea, and readers are interested in the idea with the highest quality.
 
 In this case, \emph{post hoc} theorizing is actually optimal. \emph{Post hoc} theorizing uses both the information in theory (Equation \eqref{eq:ez:S}) and the information in the data (Equation \eqref{eq:ez:muhat}), improving its expected quality:
 \begin{lemma}\label{lem:ez:post-hoc-opt}
@@ -214,14 +216,14 @@ Large language models (LLMs) are another example. These models are tuned to perf
 
 \subsection{\emph{Post Hoc} Theories are Falsifiable and Scientific}
 
-Regardless of whether theorizing is \emph{a priori} or \emph{post hoc}, idea $i^\ast$ is eventually tied to post-research data through $\mu_{i^\ast}$ (see discussion after Equation \eqref{eq:ez:muhat}). Without this link, research ideas might as well be fairy tales. Whether fairy tales are better told \emph{a priori} or \emph{post hoc} is beyond the scope of this paper.
+Idea $i^\ast$, as well as the theory for why $i^\ast$ is a good idea, are eventually tied to post-research data through $\mu_{i^\ast}$ (see discussion after Equation \eqref{eq:ez:muhat}).  Without this link, the theories might as well be fairy tales. Whether fairy tales are better told \emph{a priori} or \emph{post hoc} is beyond the scope of this paper.
 
-Because $i^\ast$ is tied to post-research data, research ideas are falsifiable and scientific, in the sense of \citet{Popper1959}. This holds regardless of whether $i^\ast$ is chosen \emph{a priori} or \emph{post hoc}. Popper does not say that researchers should ignore data when making predictions.
+Because $i^\ast$ is tied to post-research data, the ideas and theories in this model are falsifiable and scientific, in the sense of \citet{Popper1959}. This holds regardless of whether $i^\ast$ is chosen \emph{a priori} or \emph{post hoc}. Popper does not say that researchers should ignore data when making predictions.
 
 
-Perhaps because of \citet{kerr1998harking} (``HARKing: Hypothesizing after the Results are Known''), many researchers equate \emph{post hoc} theorizing with unfalsifiability. However, as seen in this model, choosing ideas \emph{post hoc} is entirely consistent with Popper's notion of science. 
+Perhaps because of \citet{kerr1998harking} (``HARKing: Hypothesizing after the Results are Known''), many researchers equate \emph{post hoc} theorizing with unfalsifiability. However, as seen in this model, constructing theories \emph{post hoc} is entirely consistent with Popper's notion of science. 
 
-This confusion likely stems from Kerr's loose use of language. The paper has a section titled  ``HARKed Hypotheses Fail Popper's Criterion of Disconfirmability.'' But the text below the title clarifies, ``[a] HARKed hypothesis fails this criterion, at least in a narrow, temporal sense.'' In other words, the text in the section explains that the section title is not necessarily true. In fact, it seems equally reasonable to say that HARKed hypotheses fail Popper's criterion \emph{only} in a narrow, temporal sense. 
+This confusion likely stems from Kerr's loose use of language. The paper has a section titled  ``HARKed Hypotheses Fail Popper's Criterion of Disconfirmability.'' But the text below the title clarifies, ``[a] HARKed hypothesis fails this criterion, at least in a narrow, temporal sense.'' In other words, the text in the section explains that the section title is not necessarily true. In fact, it seems equally reasonable to say that HARKed hypotheses fail Popper's criterion \emph{only} in a narrow, temporal sense.  Errors like these are found throughout \citet{kerr1998harking}. See \citet{rubin2022costs} for a thorough critique.
 
 % After all, it would be silly to say that Einsteins's theory of special relativity fails Popper's criterion because he designed it to fit the Michelson-Morley experiment.
 
@@ -233,7 +235,7 @@ Popper does imply that theories should be well-defined and constrained.  For exa
 
 In practice, the Fisherian ideal is impossible. Even if all researchers use theory a priori, readers with time constraints are more likely to read the research if the measured effect is large.  This limited attention is arguably the raison d'etre of both peer review (\citet{klamer2002attention}) and publication bias (\citet{chen2022publication})
 
-To model limited attention, suppose \emph{a priori} theory actually involves two steps. First, researchers study all ideas in $S$ and draft up their results in working papers. However, not all ideas are read.  Due to limited attention, only $i$ with the largest $\hat{\mu}_{i}$ becomes well-known and consumed by the public. The expected quality of this, more realistic, \emph{a priori} theorizing is
+To model limited attention, suppose \emph{a priori} theory actually involves two steps. First, researchers study all ideas in $S$ and draft up their theories and empirical findings in working papers. However, not all ideas are read.  Due to limited attention, only the idea with the largest measured quality becomes well-known and consumed by the public. The expected quality of this, more realistic, \emph{a priori} theorizing is
 \begin{align}
 E\Bigl(\mu_{i}\big|i\in S ,i=\arg\max_{i'\in S }\hat{\mu}_{i'}\Bigr) 
 & =
