@@ -99,15 +99,13 @@ Idea $i$ is randomly-drawn from a set $\left\{ 1,2,...,N\right\}$, and has quali
 \end{align}
 where $E\left(\varepsilon_{i}\right) = 0$. $i$ may be a real-world choice for readers (e.g. an investment strategy), in which case $\mu_{i}$ is the realized, quality of $i$ after the research is finished (``post-research''). Or $i$ may be an explanation for some phenomenon (e.g. a model of obesity in adolescents), in which case $\mu_{i}$ is the explanation's fit to the phenomenon, post-research. In either case, higher $\mu_{i}$ is better.
 
-
-
 Using theory rules out some ideas:
 \begin{align}
     \text{\ensuremath{i} is consistent with theory if }i\in S .
 \end{align}
 where
 \begin{align}
-    S \subseteq \left\{ 1,2,...,N\right\}
+    S \subset \left\{ 1,2,...,N\right\}
     \label{eq:ez:S}.
 \end{align}
 ``Theorizing'' turns $S$ into a selected idea $i^\ast$, and theorizing is either \emph{a priori} or \emph{post hoc}: 
@@ -121,6 +119,18 @@ where
 \end{itemize}
 In either case, the theory is some math or text that explains why $i^\ast$ is a good idea. In this simple model, the precise nature of the theory is not important, beyond that it argues for selecting $i^\ast$. 
 
+\subsection{Popper's Falsifiability and HARKing}
+
+I assume that idea $i^\ast$ and its supporting theory are eventually re-examined with post-research data via $\mu_{i^\ast}$ (see discussion after Equation \eqref{eq:ez:muhat}).  I also require that $S$ is well-defined, and does not nest all ideas $\left\{1,2,...,N\right\}$.  In other words, I assume theories are falsifiable, in the sense of \citet{Popper1959}. 
+
+One may be concerned that these assumptions are inappropriate for some social sciences. Indeed, \citet{ankel2025economics} provide disturbing evidence that economic theories may be immunized against refutation. If economic theories are indeed, not falsifiable, then they might as well be fairy tales. Whether fairy tales are better told \emph{a priori} or \emph{post hoc} is beyond the scope of this paper.
+
+Perhaps because of \citet{kerr1998harking} (``HARKing: Hypothesizing after the Results are Known''), many researchers equate \emph{post hoc} theorizing with unfalsifiability. However, as seen in this model, constructing theories \emph{post hoc} can be entirely consistent with Popper's notion of science. 
+
+This confusion likely stems from Kerr's loose use of language. The paper has a section titled  ``HARKed Hypotheses Fail Popper's Criterion of Disconfirmability.'' But the text below the title clarifies, ``[a] HARKed hypothesis fails this criterion, at least in a narrow, temporal sense.'' In other words, the text in the section explains that the section title is not necessarily true. In fact, it seems equally reasonable to say that HARKed hypotheses fail Popper's criterion \emph{only} in a narrow, temporal sense.  Errors like these are found throughout \citet{kerr1998harking}. See \citet{rubin2022costs} for a thorough critique.
+
+
+% Popper does require that scientific theories be well-defined and constrained.  For example, \citet{Popper1985} argues that Marxism was refuted by many empirical facts, but then ``immunized itself against the most blatant refutations'' by the addition of \emph{ad hoc} hypotheses. In the lens of this model, Marxism lacks a consistent definition of the set $S$. Similarly, Popper argues that Freudian theories ``do not exclude any physically possible human behavior.'' This is equivalent to saying $S$ includes the set of all ideas $\left\{1,2,...,N\right\}$. Throughout my paper, I assume that $S$ is well-defined and constrained, though one might be concerned that this assumption is inappropriate for some social sciences. Indeed, \citet{ankel2025economics} provide disturbing evidence that economic theories may be immunized against refutations. 
 
 \subsection{\emph{A Priori} Theorizing is the Unbiased Ideal}
 
@@ -216,24 +226,6 @@ Lemmas \ref{lem:ez:biased} and \ref{lem:ez:post-hoc-opt} are illustrated in Figu
 The literature on stock market anomalies is an example of Lemma \ref{lem:ez:post-hoc-opt}. Readers are interested in both the magnitude of anomalies, as well as which ones are the strongest.  But assuming that the magnitude meets some minimal standard, readers with limited time will just want to know which anomalies will perform the best in the future. Lemma \ref{lem:ez:post-hoc-opt} shows that, in this case, researchers \emph{should} mine the data, and report what has worked best in the past. This prescription is exactly the reverse of the conventional wisdom, that emphasizes the ``dangers'' of data mining (\citealt{sullivan1999data}; \citealt{harvey2016and}). However, it seems to be in-line with empirical practice, and performs quite well (\citealt{chen2024does}).
 
 Large language models (LLMs) are another example. These models are tuned to perform well on common benchmarks like MMLU (Measuring Massive Multitask Language Understanding) (e.g. \citet{guo2025deepseek}). Thus, the performance on these benchmarks is biased upward, just as in Lemma \ref{lem:ez:biased}. But in practice, this bias is not important, as long as the resulting out-of-sample performance is strong. Tuning improves out-of-sample performance, as seen in Lemma \ref{lem:ez:post-hoc-opt}. 
-
-
-\subsection{\emph{Post Hoc} Theories are Falsifiable and Scientific}
-
-Idea $i^\ast$, as well as the theory for why $i^\ast$ is a good idea, are eventually tied to post-research data through $\mu_{i^\ast}$ (see discussion after Equation \eqref{eq:ez:muhat}).  Without this link, the theories might as well be fairy tales. Whether fairy tales are better told \emph{a priori} or \emph{post hoc} is beyond the scope of this paper.
-
-Because $i^\ast$ is tied to post-research data, the ideas and theories in this model are falsifiable and scientific, in the sense of \citet{Popper1959}. This holds regardless of whether $i^\ast$ is chosen \emph{a priori} or \emph{post hoc}. Popper does not say that researchers should ignore data when making predictions.
-
-
-Perhaps because of \citet{kerr1998harking} (``HARKing: Hypothesizing after the Results are Known''), many researchers equate \emph{post hoc} theorizing with unfalsifiability. However, as seen in this model, constructing theories \emph{post hoc} is entirely consistent with Popper's notion of science. 
-
-This confusion likely stems from Kerr's loose use of language. The paper has a section titled  ``HARKed Hypotheses Fail Popper's Criterion of Disconfirmability.'' But the text below the title clarifies, ``[a] HARKed hypothesis fails this criterion, at least in a narrow, temporal sense.'' In other words, the text in the section explains that the section title is not necessarily true. In fact, it seems equally reasonable to say that HARKed hypotheses fail Popper's criterion \emph{only} in a narrow, temporal sense.  Errors like these are found throughout \citet{kerr1998harking}. See \citet{rubin2022costs} for a thorough critique.
-
-% After all, it would be silly to say that Einsteins's theory of special relativity fails Popper's criterion because he designed it to fit the Michelson-Morley experiment.
-
-
-Popper does imply that theories should be well-defined and constrained.  For example, \citet{Popper1985} argues that Marxism was refuted by many empirical facts, but then ``immunized itself against the most blatant refutations'' by the addition of \emph{ad hoc} hypotheses. In the lens of this model, Marxism lacks a consistent definition of the set $S$. Similarly, Popper argues that Freudian theories ``do not exclude any physically possible human behavior.'' This is equivalent to saying $S$ includes the set of all ideas $\left\{1,2,...,N\right\}$. Throughout my paper, I assume that $S$ is well-defined and constrained, though one might be concerned that this assumption is inappropriate for some social sciences.
-
 
 \subsection{An Irrelevance Result}\label{sec:ez:irr}
 
