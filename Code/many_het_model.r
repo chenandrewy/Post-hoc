@@ -272,6 +272,7 @@ ggsave(here("Results", "many-par0-ph.pdf"),
 
 # %% Plot Proposition 2 ==============================
 
+## Define plotting function ====
 plot_basic <- function(plotme, xname, plotedits = list()) {
   # plots the basic stuff
   # plotme is a df with cols [xname], dEmu_ph, slearn, ...
@@ -364,7 +365,7 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
   ))
 } # end plot_basics
 
-# = do actual plots =
+## Do actual plots ====
 
 plotedit1 <- list(
   xlab(expression(
@@ -383,12 +384,13 @@ many1altdat = many1out$prop2 %>%
   mutate(sd_muhat = sqrt(mu_sig^2 + par0$ep_sig^2)) 
 
 plotedit1alt <- list(
-  xlab(expression("Standard Deviation of t-statistics"))
+  xlab(expression("Standard Deviation of Measured Quality"))
   , coord_cartesian(xlim = c(0.95, 4.05))
 )
 many1altplot <- plot_basic(many1altdat, "sd_muhat", plotedit1alt)
 
-# save plots to disk
+## Save plots to disk ====
+
 tempwidth = 6; tempheight = 6; tempscale = 0.9
 
 ggsave(here("Results", "many-qgood.pdf"),
