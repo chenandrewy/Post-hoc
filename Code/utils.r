@@ -24,7 +24,7 @@ if (FONTSELECT %in% fonts$FamilyName){
     theme_minimal(base_family = FONTSELECT)
   )
 } else {
-  theme_set()
+  theme_set(theme_minimal())
 }
 
 #%% Colors ==============================================
