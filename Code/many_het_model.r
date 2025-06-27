@@ -7,7 +7,7 @@
 rm(list = ls())
 
 library(here)
-source(here("Code", "utils.r"))
+source(here("Code", "utils.r")) 
 
 seed <- 1027
 
@@ -98,11 +98,13 @@ simulate_many <- function(par0, xname, xval) {
   return(list(litplussum = litplussum, prop2 = prop2))
 } # end of simulate_many
 
+# %% Define Prop2 Settings and Simulate ==========================
+
 # = Simulate many mu_sig =
 
 many1set <- list(
   xname = "mu_sig",
-  xval = seq(par0$mu_sig, sqrt(50) * par0$mu_sig, length.out = NSIM_PER_XVAR)
+  xval = seq(par0$mu_sig, sqrt(60) * par0$mu_sig, length.out = NSIM_PER_XVAR)
 )
 
 many1out <- simulate_many(par0, many1set$xname, many1set$xval)
@@ -128,7 +130,9 @@ save.image(here("Results", "zzz-many-het.RData"))
 
 load(here("Results", "zzz-many-het.RData"))
 
-# %% Plot par0 ==============================
+# %% Plot Darwinian Selection ==============================
+# outputs many-par0-ap.pdf and many-par0-ph.pdf
+# histgrams that illustrate darwinian selection
 
 # Helper function to create histogram data
 create_histogram_data <- function(data, varname, binwidth = 0.5) {
@@ -266,10 +270,12 @@ ggsave(here("Results", "many-par0-ph.pdf"),
   width = tempwidth, height = tempheight, scale = tempscale, device = cairo_pdf
 )
 
-# %% Plot many settings ==============================
+# %% Plot Proposition 2 ==============================
 
 plot_basic <- function(plotme, xname, plotedits = list()) {
   # plots the basic stuff
+  # plotme is a df with cols [xname], dEmu_ph, slearn, ...
+  # xname is the name of the x-axis variable
 
   # where dlearn = slearn
   x0 <- plotme %>%
@@ -358,6 +364,8 @@ plot_basic <- function(plotme, xname, plotedits = list()) {
   ))
 } # end plot_basics
 
+# = do actual plots =
+
 plotedit1 <- list(
   xlab(expression(
     "Standard Deviation of Actual Quality"
@@ -370,6 +378,15 @@ plotedit2 <- list(
 )
 many2plot <- plot_basic(many2out$prop2, many2set$xname, plotedit2)
 
+# alternative version of many1plot
+many1altdat = many1out$prop2 %>%
+  mutate(sd_muhat = sqrt(mu_sig^2 + par0$ep_sig^2)) 
+
+plotedit1alt <- list(
+  xlab(expression("Standard Deviation of t-statistics"))
+  , coord_cartesian(xlim = c(0.95, 4.05))
+)
+many1altplot <- plot_basic(many1altdat, "sd_muhat", plotedit1alt)
 
 # save plots to disk
 tempwidth = 6; tempheight = 6; tempscale = 0.9
@@ -381,6 +398,11 @@ ggsave(here("Results", "many-qgood.pdf"),
 
 ggsave(here("Results", "many-mu_sig.pdf"),
   arrangeGrob(many1plot$dEmu, many1plot$prop2, ncol = 1),
+  width = tempwidth, height = tempheight, scale = tempscale, device = cairo_pdf
+)
+
+ggsave(here("Results", "many-sd_muhat.pdf"),
+  arrangeGrob(many1altplot$dEmu, many1altplot$prop2, ncol = 1),
   width = tempwidth, height = tempheight, scale = tempscale, device = cairo_pdf
 )
 
