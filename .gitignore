@@ -21,3 +21,6 @@ Post Hoc To Do.docx
 # Rproj extra stuff
 .Rproj.user
 .Rhistory
+
+# ignore Mac 
+*.DS_Store
